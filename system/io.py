@@ -31,10 +31,11 @@ class FileHandler:
     def write(self, content):
         _file = None
         try:
-            _file = open(self.file_name)
+            _file = open(self.file_name, 'w')
             if isinstance(content, str):
                 _file.write(content)
             elif isinstance(content, list):
+                content = [a + '\n' for a in content]
                 _file.writelines(content)
         except IOError:
             pass

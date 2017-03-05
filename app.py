@@ -71,7 +71,7 @@ def process():
 
 @app.route('/')
 def index():
-    global initialised
+    global initialised, driver
     if not initialised:
         initSystem()
         initialised = True
@@ -80,6 +80,7 @@ def index():
 
 @app.route('/start_process')
 def startProcess():
+    session['system_state'] = 'Running'
     config.prop['PROCEED'] = True
     process()
     return redirect('/')
@@ -87,6 +88,7 @@ def startProcess():
 
 @app.route('/stop_process')
 def stopProcess():
+    session['system_state'] = 'Idle'
     global process_queue
     if not isinstance(process_queue, ProcessQueue):
         session['error'] = 'stopProcess > not a ProcessQueue'
@@ -120,6 +122,6 @@ def loadURLList():
 
 if __name__ == '__main__':
     app.secret_key = 'super secret key'
-    app.run(debug=True, host='127.0.0.2')
+    app.run(debug=True, port=4000)
 
 

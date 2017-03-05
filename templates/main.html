@@ -14,6 +14,8 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="/templates/css/mytable.css" type="text/css">
+
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
@@ -38,12 +40,12 @@
                     {% endif %}
                 </div>
                 <div class="form-group" id="url-table">
-                    <h2> Company List </h2>
+                    <h2> Link List </h2>
                     {% if session['link_list'] %}
                     <table class="table">
                         {% for url in session['link_list'] %}
                             <tr>
-                                <td>{{ url }}</td>
+                                <td>{{ loop.index }} - {{ url }}</td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -51,15 +53,17 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div>
-                    {% if session['current_captcha'] %}
-                        <img src="{{ session['current_captcha'] }} ">
+                <div class="form-group">
+                    {% if session['system_state'] %}
+                        {% if session['system_state'] == 'Running' %}
+                            <span> Running </span>
+                        {% endif %}
+                        {% if session['system_state'] == 'Idle' %}
+                            <span> Idle </span>
+                        {% endif %}
                     {% endif %}
-                    <a class="btn btn-success" href="/get_captcha"> Next </a>
-                    <form action="/send_captcha" method="post">
-                        <input type="text" id="captcha_solution" name="captcha_solution">
-                        <input type="submit" class="btn btn-success" value="Submit">
-                    </form>
+                    <a href="/start_process" class="btn btn-success">Start Process</a>
+                    <a href="/stop_process" class="btn btn-danger">Stop Process</a>
                 </div>
             </div>
         </div>
