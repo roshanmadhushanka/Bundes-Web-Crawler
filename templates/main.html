@@ -14,8 +14,6 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="/templates/css/mytable.css" type="text/css">
-
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
@@ -55,15 +53,16 @@
             <div class="col-md-4">
                 <div class="form-group">
                     {% if session['system_state'] %}
-                        {% if session['system_state'] == 'Running' %}
-                            <span> Running </span>
+                        {% if session['system_state'] == "Running" %}
+                            <h2>Running</h2>
                         {% endif %}
-                        {% if session['system_state'] == 'Idle' %}
-                            <span> Idle </span>
+                        {% if session['system_state'] == "Idle" %}
+                            <h2>Idle</h2>
                         {% endif %}
                     {% endif %}
                     <a href="/start_process" class="btn btn-success">Start Process</a>
                     <a href="/stop_process" class="btn btn-danger">Stop Process</a>
+                    <a href="/load_url_list" class="btn btn-info">Load URL</a>
                 </div>
             </div>
         </div>

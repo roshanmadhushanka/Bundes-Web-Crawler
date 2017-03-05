@@ -5,7 +5,9 @@ from selenium.common.exceptions import NoSuchElementException
 from system.io import FileHandler
 from system import crawler
 from system.structure import ProcessQueue
+import os
 import time
+import thread
 import config
 from bs4 import BeautifulSoup
 
@@ -31,7 +33,7 @@ def initSystem():
     process_queue = ProcessQueue(file_handler.read())
 
     # Selenium Firefox driver
-    driver = webdriver.Firefox(executable_path='C:\Users\Roshan\PycharmProjects\\bundesanzeiger\driver\geckodriver.exe')
+    driver = webdriver.Firefox(executable_path=os.getcwd() + '/driver/geckodriver')
 
     # Setting up sessions
     file_handler = FileHandler(config.prop['COMPANY_LIST_PATH'])
@@ -80,14 +82,17 @@ def index():
 
 @app.route('/start_process')
 def startProcess():
+    print "Server :", "Running"
     session['system_state'] = 'Running'
     config.prop['PROCEED'] = True
-    process()
+    thread.start_new_thread(process, ())
+    # process()
     return redirect('/')
 
 
 @app.route('/stop_process')
 def stopProcess():
+    print "Server :", "Idle"
     session['system_state'] = 'Idle'
     global process_queue
     if not isinstance(process_queue, ProcessQueue):
@@ -117,6 +122,8 @@ def loadURLList():
 
     file_handler = FileHandler(file_name=config.prop['LINK_LIST_PATH'])
     file_handler.write(links)
+
+    initSystem()
 
     return redirect('/')
 
