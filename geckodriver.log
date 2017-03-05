@@ -1,8 +1,8 @@
-1488625581182	geckodriver	INFO	Listening on 127.0.0.1:10201
-1488625583215	mozprofile::profile	INFO	Using profile path C:\Users\Roshan\AppData\Local\Temp\rust_mozprofile.JImv8LErAoS3
-1488625583215	geckodriver::marionette	INFO	Starting browser C:\Program Files (x86)\Mozilla Firefox\firefox.exe
-1488625583234	geckodriver::marionette	INFO	Connecting to Marionette on localhost:10207
-1488625583966	Marionette	INFO	Listening on port 10207
-1488625682242	geckodriver::marionette	ERROR	Failed to kill browser process
--00000000000000000000/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
-[Child 19488] WARNING: pipe error: 109: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+1488692899694	geckodriver	INFO	Listening on 127.0.0.1:1937
+1488692901730	mozprofile::profile	INFO	Using profile path C:\Users\Roshan\AppData\Local\Temp\rust_mozprofile.X6ngBPhmcyjp
+1488692901735	geckodriver::marionette	INFO	Starting browser C:\Program Files (x86)\Mozilla Firefox\firefox.exe
+1488692901741	geckodriver::marionette	INFO	Connecting to Marionette on localhost:1945
+1488692902275	Marionette	INFO	Listening on port 1945
+[Child 11752] WARNING: pipe error: 109: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 11752] WARNING: pipe error: 109: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+6

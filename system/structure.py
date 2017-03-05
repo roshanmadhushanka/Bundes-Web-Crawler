@@ -1,6 +1,7 @@
 class ProcessQueue:
     def __init__(self, items=None):
         self.queue = []
+        self.size = None
         if isinstance(items, list):
             self.queue = items
 
@@ -11,13 +12,18 @@ class ProcessQueue:
             self.queue.extend(item)
 
     def dequeue(self):
-        item = None
+        _item = None
         if len(self.queue) > 0:
-            item = self.queue.pop(0)
-        return item
+            _item = self.queue.pop(0)
+        return _item
 
     def getItems(self):
         return self.queue
+
+    def getSize(self):
+        if self.size is None:
+            self.size = len(self.queue)
+        return self.size
 
 
 class LinkQueue:
@@ -34,14 +40,14 @@ class LinkQueue:
         if len(self.queue.keys()) < 0:
             return None
 
-        company = self.queue.keys()[0]
-        lst = self.queue[company]
-        data = {'company': company, 'link': lst[0][0]}
+        _company = self.queue.keys()[0]
+        _lst = self.queue[_company]
+        _data = {'company': _company, 'link': _lst[0][0]}
 
-        if len(self.queue[company]) == 1:
-            self.queue.pop(company)
+        if len(self.queue[_company]) == 1:
+            self.queue.pop(_company)
         else:
-            self.queue[company] = self.queue[company][1:]
-        return data
+            self.queue[_company] = self.queue[_company][1:]
+        return _data
 
 

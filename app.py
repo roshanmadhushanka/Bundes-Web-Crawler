@@ -6,58 +6,120 @@ from system.io import FileHandler
 from system import crawler
 from system.structure import ProcessQueue
 import time
+import config
 from bs4 import BeautifulSoup
 
-# Company list
-company_list = []
-company_list_updated = False
-
 # Process queue
-process_queue = ProcessQueue()
+process_queue = None
 
-# Driver
-driver = webdriver.Firefox(executable_path='C:\Users\Roshan\PycharmProjects\\bundesanzeiger\driver\geckodriver.exe')
+# Firefox selenium driver
+driver = None
 
+# Initialising state
+initialised = False
 
-def updateCompany():
-    global company_list, company_list_updated
-    file_handler = FileHandler(file_name='company_list')
-    company_list = file_handler.read()
-    company_list_updated = True
-    updateProcessQueue()
+app = Flask(__name__)
+CORS(app)
 
 
-def updateProcessQueue():
-    global process_queue, company_list, driver
+def initSystem():
+    global process_queue, driver
+
+    # Initialising variables
+    # Setting up process queue
+    file_handler = FileHandler(config.prop['LINK_LIST_PATH'])
+    process_queue = ProcessQueue(file_handler.read())
+
+    # Selenium Firefox driver
+    driver = webdriver.Firefox(executable_path='C:\Users\Roshan\PycharmProjects\\bundesanzeiger\driver\geckodriver.exe')
+
+    # Setting up sessions
+    file_handler = FileHandler(config.prop['COMPANY_LIST_PATH'])
+    session['company_list'] = file_handler.read()
+
+    file_handler = FileHandler(config.prop['LINK_LIST_PATH'])
+    session['link_list'] = file_handler.read()
+
+    # Load configuration
+    config.loadConfig()
+
+
+def process():
+    global driver, process_queue
+
+    while config.prop['PROCEED']:
+        url = process_queue.dequeue()
+        if url is None:
+            break
+
+        while True:
+            driver.get(url)
+            try:
+                input_element = driver.find_element_by_id("captcha_data.solution")
+                input_element.send_keys('')
+            except NoSuchElementException:
+                pass
+
+            try:
+                element = driver.find_element_by_id("begin_pub")
+                soup = BeautifulSoup(driver.page_source, "lxml")
+                print soup.prettify()
+                break
+            except NoSuchElementException:
+                time.sleep(config.prop['SLEEP_TIME'])
+
+
+@app.route('/')
+def index():
+    global initialised
+    if not initialised:
+        initSystem()
+        initialised = True
+    return render_template('main.html')
+
+
+@app.route('/start_process')
+def startProcess():
+    config.prop['PROCEED'] = True
+    process()
+    return redirect('/')
+
+
+@app.route('/stop_process')
+def stopProcess():
+    global process_queue
     if not isinstance(process_queue, ProcessQueue):
-        return
+        session['error'] = 'stopProcess > not a ProcessQueue'
+        return redirect('/')
+
+    file_handler = FileHandler(config.prop['LINK_LIST_PATH'])
+    file_handler.write(process_queue.getItems())
+    config.prop['PROCEED'] = False
+    return redirect('/')
+
+
+@app.route('/load_url_list')
+def loadURLList():
+    global process_queue
+
+    if not isinstance(process_queue, ProcessQueue):
+        session['error'] = 'loadURLList > not a ProcessQueue'
+        return redirect('/')
+
+    file_handler = FileHandler(file_name=config.prop['COMPANY_LIST_PATH'])
+    company_list = file_handler.read()
 
     links = []
     for company in company_list:
         links.extend(crawler.getSearchUrls(company))
 
-    process_queue.enqueue(links)
+    file_handler = FileHandler(file_name=config.prop['LINK_LIST_PATH'])
+    file_handler.write(links)
 
-updateCompany()
-updateProcessQueue()
+    return redirect('/')
 
-while True:
-    url = process_queue.dequeue()
-    if url is None:
-        break
+if __name__ == '__main__':
+    app.secret_key = 'super secret key'
+    app.run(debug=True, host='127.0.0.2')
 
-    while True:
-        driver.get(url)
-        try:
-            inputElement = driver.find_element_by_id("captcha_data.solution")
-            inputElement.send_keys('')
-        except NoSuchElementException:
-            pass
 
-        try:
-            element = driver.find_element_by_id("begin_pub")
-            soup = BeautifulSoup(driver.page_source, "lxml")
-            print soup.prettify()
-            break
-        except NoSuchElementException:
-            time.sleep(10)
