@@ -284,3 +284,271 @@ JavaScript error: chrome://marionette/content/listener.js, line 870: TypeError: 
 (firefox:10644): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
 
 (firefox:10644): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1488725867763	geckodriver	INFO	Listening on 127.0.0.1:58297
+1488725869022	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.2inkqJK1gne0
+1488725869026	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488725869029	geckodriver::marionette	INFO	Connecting to Marionette on localhost:35627
+1488725871697	Marionette	INFO	Listening on port 35627
+1488725903151	geckodriver	INFO	Listening on 127.0.0.1:53621
+1488725904336	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.oT2k34fVTOMf
+1488725904337	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488725904341	geckodriver::marionette	INFO	Connecting to Marionette on localhost:38883
+1488725906335	Marionette	INFO	Listening on port 38883
+
+(firefox:11106): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:11106): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:11106): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:11106): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:11106): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:11106): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:11106): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7f725c8ec0b0' of type 'MaiAtkType139'
+
+(firefox:11106): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7f7261168920' of type 'MaiAtkType139'
+
+(firefox:11106): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7f7263af0100' of type 'MaiAtkType139'
+
+(firefox:11106): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7f725c7f2dd0' of type 'MaiAtkType139'
+1488726023300	geckodriver	INFO	Listening on 127.0.0.1:47963
+1488726024453	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.0JAJWsHQ92zN
+1488726024454	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488726024456	geckodriver::marionette	INFO	Connecting to Marionette on localhost:32889
+1488726025662	Marionette	INFO	Listening on port 32889
+1488726049530	geckodriver	INFO	Listening on 127.0.0.1:50347
+1488726050677	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.4t66L4gHp0VV
+1488726050681	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488726050686	geckodriver::marionette	INFO	Connecting to Marionette on localhost:40757
+1488726052086	Marionette	INFO	Listening on port 40757
+JavaScript error: chrome://marionette/content/listener.js, line 1001: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]
+JavaScript error: chrome://marionette/content/listener.js, line 1001: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]
+
+(firefox:11395): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:11395): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:11395): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:11395): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:11395): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:11395): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:11395): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7f31a484a240' of type 'MaiAtkType139'
+
+(firefox:11395): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7f31a67dcec0' of type 'MaiAtkType139'
+
+(firefox:11395): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7f31a98a3380' of type 'MaiAtkType139'
+1488726133215	geckodriver	INFO	Listening on 127.0.0.1:53983
+1488726134398	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.4YrHG1TZYwyz
+1488726134403	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488726134405	geckodriver::marionette	INFO	Connecting to Marionette on localhost:34563
+1488726135710	Marionette	INFO	Listening on port 34563
+1488726764571	geckodriver	INFO	Listening on 127.0.0.1:43859
+1488726765725	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.G4oP8PGeiKdk
+1488726765733	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488726765751	geckodriver::marionette	INFO	Connecting to Marionette on localhost:44853
+1488726767110	Marionette	INFO	Listening on port 44853
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1488728763404	geckodriver	INFO	Listening on 127.0.0.1:33175
+1488728764735	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.7Vld66QKOp6I
+1488728764739	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488728764748	geckodriver::marionette	INFO	Connecting to Marionette on localhost:37195
+1488728766091	Marionette	INFO	Listening on port 37195
+1488728800760	geckodriver	INFO	Listening on 127.0.0.1:51849
+1488728802004	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.SnwQqSsHRy1X
+1488728802017	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488728802018	geckodriver::marionette	INFO	Connecting to Marionette on localhost:35997
+1488728804390	Marionette	INFO	Listening on port 35997
+1488728831954	geckodriver	INFO	Listening on 127.0.0.1:58801
+1488728833318	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.sIik6opBWkQj
+1488728833321	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488728833328	geckodriver::marionette	INFO	Connecting to Marionette on localhost:42075
+1488728835870	Marionette	INFO	Listening on port 42075
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: this.browserForTab is undefined
+Full stack: hasRemotenessChange@chrome://marionette/content/browser.js:233:9
+executeWhenReady@chrome://marionette/content/browser.js:264:9
+GeckoDriver.prototype.sendAsync@chrome://marionette/content/driver.js:218:5
+send/<@chrome://marionette/content/proxy.js:138:7
+send@chrome://marionette/content/proxy.js:105:12
+ownPriorityGetterTrap.get/<@chrome://marionette/content/proxy.js:24:25
+GeckoDriver.prototype.findElement@chrome://marionette/content/driver.js:1688:31
+TaskImpl_run@resource://gre/modules/Task.jsm:319:40
+TaskImpl@resource://gre/modules/Task.jsm:280:3
+createAsyncFunction/asyncFunction@resource://gre/modules/Task.jsm:254:14
+Task_spawn@resource://gre/modules/Task.jsm:168:12
+TaskImpl_handleResultValue@resource://gre/modules/Task.jsm:388:16
+TaskImpl_run@resource://gre/modules/Task.jsm:327:13
+TaskImpl@resource://gre/modules/Task.jsm:280:3
+createAsyncFunction/asyncFunction@resource://gre/modules/Task.jsm:254:14
+Task_spawn@resource://gre/modules/Task.jsm:168:12
+Dispatcher.prototype.execute@chrome://marionette/content/dispatcher.js:117:13
+Dispatcher.prototype.onPacket@chrome://marionette/content/dispatcher.js:88:5
+DebuggerTransport.prototype._onJSONObjectReady/<@chrome://marionette/content/server.js -> resource://devtools/shared/transport/transport.js:483:11
+exports.makeInfallible/<@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:101:14
+exports.makeInfallible/<@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:101:14
+
+*************************
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: this.browserForTab is undefined
+Full stack: hasRemotenessChange@chrome://marionette/content/browser.js:233:9
+executeWhenReady@chrome://marionette/content/browser.js:264:9
+GeckoDriver.prototype.sendAsync@chrome://marionette/content/driver.js:218:5
+send/<@chrome://marionette/content/proxy.js:138:7
+send@chrome://marionette/content/proxy.js:105:12
+ownPriorityGetterTrap.get/<@chrome://marionette/content/proxy.js:24:25
+GeckoDriver.prototype.findElement@chrome://marionette/content/driver.js:1688:31
+TaskImpl_run@resource://gre/modules/Task.jsm:319:40
+TaskImpl@resource://gre/modules/Task.jsm:280:3
+createAsyncFunction/asyncFunction@resource://gre/modules/Task.jsm:254:14
+Task_spawn@resource://gre/modules/Task.jsm:168:12
+TaskImpl_handleResultValue@resource://gre/modules/Task.jsm:388:16
+TaskImpl_run@resource://gre/modules/Task.jsm:327:13
+TaskImpl@resource://gre/modules/Task.jsm:280:3
+createAsyncFunction/asyncFunction@resource://gre/modules/Task.jsm:254:14
+Task_spawn@resource://gre/modules/Task.jsm:168:12
+Dispatcher.prototype.execute@chrome://marionette/content/dispatcher.js:117:13
+Dispatcher.prototype.onPacket@chrome://marionette/content/dispatcher.js:88:5
+DebuggerTransport.prototype._onJSONObjectReady/<@chrome://marionette/content/server.js -> resource://devtools/shared/transport/transport.js:483:11
+exports.makeInfallible/<@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:101:14
+exports.makeInfallible/<@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:101:14
+
+*************************
+*************************
+A coding exception was thrown in a Promise rejection callback.
+See https://developer.mozilla.org/Mozilla/JavaScript_code_modules/Promise.jsm/Promise
+
+Full message: TypeError: this.browserForTab is undefined
+Full stack: hasRemotenessChange@chrome://marionette/content/browser.js:233:9
+executeWhenReady@chrome://marionette/content/browser.js:264:9
+GeckoDriver.prototype.sendAsync@chrome://marionette/content/driver.js:218:5
+send/<@chrome://marionette/content/proxy.js:138:7
+send@chrome://marionette/content/proxy.js:105:12
+ownPriorityGetterTrap.get/<@chrome://marionette/content/proxy.js:24:25
+GeckoDriver.prototype.findElement@chrome://marionette/content/driver.js:1688:31
+TaskImpl_run@resource://gre/modules/Task.jsm:319:40
+TaskImpl@resource://gre/modules/Task.jsm:280:3
+createAsyncFunction/asyncFunction@resource://gre/modules/Task.jsm:254:14
+Task_spawn@resource://gre/modules/Task.jsm:168:12
+TaskImpl_handleResultValue@resource://gre/modules/Task.jsm:388:16
+TaskImpl_run@resource://gre/modules/Task.jsm:327:13
+TaskImpl@resource://gre/modules/Task.jsm:280:3
+createAsyncFunction/asyncFunction@resource://gre/modules/Task.jsm:254:14
+Task_spawn@resource://gre/modules/Task.jsm:168:12
+Dispatcher.prototype.execute@chrome://marionette/content/dispatcher.js:117:13
+Dispatcher.prototype.onPacket@chrome://marionette/content/dispatcher.js:88:5
+DebuggerTransport.prototype._onJSONObjectReady/<@chrome://marionette/content/server.js -> resource://devtools/shared/transport/transport.js:483:11
+exports.makeInfallible/<@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:101:14
+exports.makeInfallible/<@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:101:14
+
+*************************
+Marionette threw an error: TypeError: this.browserForTab is undefined
+hasRemotenessChange@chrome://marionette/content/browser.js:233:9
+executeWhenReady@chrome://marionette/content/browser.js:264:9
+GeckoDriver.prototype.sendAsync@chrome://marionette/content/driver.js:218:5
+send/<@chrome://marionette/content/proxy.js:138:7
+send@chrome://marionette/content/proxy.js:105:12
+ownPriorityGetterTrap.get/<@chrome://marionette/content/proxy.js:24:25
+GeckoDriver.prototype.findElement@chrome://marionette/content/driver.js:1688:31
+TaskImpl_run@resource://gre/modules/Task.jsm:319:40
+TaskImpl@resource://gre/modules/Task.jsm:280:3
+createAsyncFunction/asyncFunction@resource://gre/modules/Task.jsm:254:14
+Task_spawn@resource://gre/modules/Task.jsm:168:12
+TaskImpl_handleResultValue@resource://gre/modules/Task.jsm:388:16
+TaskImpl_run@resource://gre/modules/Task.jsm:327:13
+TaskImpl@resource://gre/modules/Task.jsm:280:3
+createAsyncFunction/asyncFunction@resource://gre/modules/Task.jsm:254:14
+Task_spawn@resource://gre/modules/Task.jsm:168:12
+Dispatcher.prototype.execute@chrome://marionette/content/dispatcher.js:117:13
+Dispatcher.prototype.onPacket@chrome://marionette/content/dispatcher.js:88:5
+DebuggerTransport.prototype._onJSONObjectReady/<@chrome://marionette/content/server.js -> resource://devtools/shared/transport/transport.js:483:11
+exports.makeInfallible/<@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:101:14
+exports.makeInfallible/<@resource://gre/modules/commonjs/toolkit/loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:101:14
+
+1488728871777	geckodriver	INFO	Listening on 127.0.0.1:44085
+1488728872912	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.uYjAYTFg9eul
+1488728872912	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488728872914	geckodriver::marionette	INFO	Connecting to Marionette on localhost:36679
+1488728874162	Marionette	INFO	Listening on port 36679
+1488728917442	geckodriver	INFO	Listening on 127.0.0.1:33143
+1488728918584	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.qYagVGqTeQAp
+1488728918589	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488728918591	geckodriver::marionette	INFO	Connecting to Marionette on localhost:32859
+1488728919822	Marionette	INFO	Listening on port 32859
+1488728947246	geckodriver	INFO	Listening on 127.0.0.1:37573
+1488728948392	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.XwvMpjbUPDYl
+1488728948393	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488728948394	geckodriver::marionette	INFO	Connecting to Marionette on localhost:40337
+1488728949553	Marionette	INFO	Listening on port 40337
+JavaScript error: chrome://marionette/content/listener.js, line 1001: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]
+
+(firefox:12554): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:12554): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:12554): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:12554): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:12554): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:12554): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:12554): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7f111d96bec0' of type 'MaiAtkType139'
+
+(firefox:12554): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7f111e21b1f0' of type 'MaiAtkType139'
+
+(firefox:12554): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7f111dd8e100' of type 'MaiAtkType139'
+
+(firefox:12554): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7f111e3a58d0' of type 'MaiAtkType139'
+
+(firefox:12554): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7f1123a4cb50' of type 'MaiAtkType139'
+1488729246196	geckodriver	INFO	Listening on 127.0.0.1:40333
+1488729247352	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.J4OYGaBcGejN
+1488729247353	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488729247360	geckodriver::marionette	INFO	Connecting to Marionette on localhost:37061
+1488729248622	Marionette	INFO	Listening on port 37061
+1488729261275	geckodriver	INFO	Listening on 127.0.0.1:43163
+1488729262464	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.NjFPe4TtOtZe
+1488729262465	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488729262472	geckodriver::marionette	INFO	Connecting to Marionette on localhost:37081
+1488729264366	Marionette	INFO	Listening on port 37081
+
+(firefox:12868): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:12868): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:12868): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:12868): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:12868): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:12868): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed

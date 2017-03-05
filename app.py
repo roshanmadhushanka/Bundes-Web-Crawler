@@ -1,15 +1,16 @@
-from flask import Flask, render_template, redirect, request, url_for, session, send_from_directory
+import os
+import thread
+import time
+import config
+
+from bs4 import BeautifulSoup
+from flask import Flask, render_template, redirect, session
 from flask_cors import CORS
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
-from system.io import FileHandler
 from system import crawler
+from system.io import FileHandler
 from system.structure import ProcessQueue
-import os
-import time
-import thread
-import config
-from bs4 import BeautifulSoup
 
 # Process queue
 process_queue = None
@@ -46,9 +47,23 @@ def initSystem():
     config.loadConfig()
 
 
+def saveSystemState():
+    '''
+    Save system state
+    :return:
+    '''
+    global process_queue
+    if not isinstance(process_queue, ProcessQueue):
+        return
+
+    config.saveConfig()
+    file_handler = FileHandler(config.prop['LINK_LIST_PATH'])
+    file_handler.write(process_queue.getItems())
+
+
 def process():
     global driver, process_queue
-
+    count = 0
     while config.prop['PROCEED']:
         url = process_queue.dequeue()
         if url is None:
@@ -69,6 +84,10 @@ def process():
                 break
             except NoSuchElementException:
                 time.sleep(config.prop['SLEEP_TIME'])
+        count += 1
+        if count == config.prop['SAVE_INTERVAL']:
+            saveSystemState()
+            count = 0
 
 
 @app.route('/')
@@ -84,9 +103,12 @@ def index():
 def startProcess():
     print "Server :", "Running"
     session['system_state'] = 'Running'
+
     config.prop['PROCEED'] = True
+    print config.prop['PROCEED']
+
     thread.start_new_thread(process, ())
-    # process()
+
     return redirect('/')
 
 
@@ -101,7 +123,10 @@ def stopProcess():
 
     file_handler = FileHandler(config.prop['LINK_LIST_PATH'])
     file_handler.write(process_queue.getItems())
+
     config.prop['PROCEED'] = False
+    print config.prop['PROCEED']
+
     return redirect('/')
 
 
