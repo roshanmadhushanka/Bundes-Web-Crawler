@@ -1,6 +1,6 @@
 import urllib2
-
 from bs4 import BeautifulSoup
+from flask import request
 
 
 def getSearchUrls(company_name):
@@ -29,30 +29,6 @@ def getSearchUrls(company_name):
                 available_links.append(result_url)
 
     return available_links
-
-
-def getCaptchaSource(url):
-    '''
-    Get URL of captcha image
-    :param url: url for the page where captcha is located
-    :return: image url for the captcha image
-    '''
-
-    page = urllib2.urlopen(url)
-    soup = BeautifulSoup(page, "lxml")
-    captcha_result = soup.find_all("img", {"alt": "Captcha"})
-    return 'https://www.bundesanzeiger.de/' + captcha_result[0]['src']
-
-
-def getCaptchaFromPage(page):
-    '''
-    Get captcha from page
-    :param page: web page
-    :return: image URL for the captcha image
-    '''
-    soup = BeautifulSoup(page, "lxml")
-    captcha_result = soup.find_all("img", {"alt": "Captcha"})
-    return 'https://www.bundesanzeiger.de/' + captcha_result[0]['src']
 
 
 def getSearchUrlsFromDriver(company_name, driver):
@@ -85,3 +61,15 @@ def getSearchUrlsFromDriver(company_name, driver):
                 available_links.append(result_url)
 
     return available_links
+
+
+def getDocumentDetails(soup):
+    if not isinstance(soup, BeautifulSoup):
+        print 'crawler -> getDocumentDetails : Cannot foung BeautifulSoup instance'
+        return
+
+    name = soup.find("td", {"class": "first"}).text.strip()
+    info = soup.find("td", {"class": "info"}).text.strip()
+    preview_data = soup.find("div", {"id": "preview_data"}).prettify(encoding='utf-8')
+
+    return {'name': name, 'info': info, 'preview_data': preview_data}

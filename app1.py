@@ -22,8 +22,6 @@ driver = None
 # Initialising state
 initialised = False
 
-prcd = False
-
 app = Flask(__name__)
 CORS(app)
 
@@ -35,23 +33,30 @@ def initSystem():
     global process_queue, driver, async
 
     # Initialising variables
+    # Retrieve
+    file_handler = FileHandler(file_name=config.prop['COMPANY_LIST_PATH'])
+    company_list = file_handler.read()
+
+    links = []
+    for company in company_list:
+        links.extend(crawler.getSearchUrls(company))
+
+    file_handler = FileHandler(file_name=config.prop['LINK_LIST_PATH'])
+    file_handler.write(links)
+
     # Setting up process queue
-    file_handler = FileHandler(config.prop['LINK_LIST_PATH'])
-    process_queue = ProcessQueue(file_handler.read())
+    process_queue = ProcessQueue(links)
 
     # Selenium Firefox driver
     driver = webdriver.Firefox(executable_path=os.getcwd() + '/driver/geckodriver')
 
-    # Aasynchrnous process handler
+    # Asynchronous process handler
     async = Async(driver=driver, process_q=process_queue)
     async.start()
 
-    # Setting up sessions
-    file_handler = FileHandler(config.prop['COMPANY_LIST_PATH'])
-    session['company_list'] = file_handler.read()
-
-    file_handler = FileHandler(config.prop['LINK_LIST_PATH'])
-    session['link_list'] = file_handler.read()
+    # Setting up session
+    session['link_list'] = links
+    session['company_list'] = company_list
 
     # Load configuration
     config.loadConfig()

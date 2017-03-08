@@ -1,9 +1,12 @@
 import threading
 import time
 import config
-from bs4 import BeautifulSoup
-from selenium.common.exceptions import NoSuchElementException
+import crawler
 
+from bs4 import BeautifulSoup
+from flask import session
+from selenium.common.exceptions import NoSuchElementException
+from system.io import FileHandler
 
 
 class Async(threading.Thread):
@@ -23,12 +26,9 @@ class Async(threading.Thread):
     def run(self):
         # self.resume()
         while True:
-            # with self._condition:
-            #     if self._stop:
-            #         self._condition.wait()  # block until notified
-            # do stuff
-            url = self._process_q.dequeue()
-            if url is None:
+            _url = self._process_q.dequeue()
+            session['current_url'] = _url
+            if _url is None:
                 break
 
             while True:
@@ -36,17 +36,25 @@ class Async(threading.Thread):
                     if self._stop:
                         self._condition.wait()  # block until notified
 
-                self._driver.get(url)
+                self._driver.get(_url)
                 try:
-                    input_element = self._driver.find_element_by_id("captcha_data.solution")
-                    input_element.send_keys('')
+                    _input_element = self._driver.find_element_by_id("captcha_data.solution")
+                    _input_element.send_keys('')
                 except NoSuchElementException:
                     pass
 
                 try:
-                    element = self._driver.find_element_by_id("begin_pub")
-                    soup = BeautifulSoup(self._driver.page_source, "lxml")
-                    print soup.prettify()
+                    # Raise an exception if 'begin_pub' element (result page) is not found
+                    _element = self._driver.find_element_by_id("begin_pub")
+                    _soup = BeautifulSoup(self._driver.page_source, "lxml")
+
+                    # Parse document data
+                    _doc_data = crawler.getDocumentDetails(_soup)
+                    _file_name = _doc_data['name'] + ' ' + _doc_data['info']
+
+                    # Write result to file
+                    file_handler = FileHandler(_file_name)
+                    file_handler.write(_doc_data['preview_data'])
                     break
                 except NoSuchElementException:
                     time.sleep(config.prop['SLEEP_TIME'])
