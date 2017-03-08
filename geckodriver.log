@@ -1482,3 +1482,41 @@ A coding exception was thrown and uncaught in a Task.
 Full message: TypeError: NetworkError when attempting to fetch resource.
 Full stack: 
 *************************
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+1488989157146	geckodriver	INFO	Listening on 127.0.0.1:37293
+1488989158422	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.VHXdMfcnCB70
+1488989158430	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488989158441	geckodriver::marionette	INFO	Connecting to Marionette on localhost:35263
+1488989160649	Marionette	INFO	Listening on port 35263
+1488989388600	geckodriver	INFO	Listening on 127.0.0.1:40485
+1488989389747	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.NhbVIZgMjP2G
+1488989389752	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488989389754	geckodriver::marionette	INFO	Connecting to Marionette on localhost:34389
+1488989391003	Marionette	INFO	Listening on port 34389
+JavaScript error: chrome://marionette/content/listener.js, line 1001: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]
+
+(firefox:9468): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:9468): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:9468): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:9468): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:9468): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:9468): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:9468): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7f9d322d8510' of type 'MaiAtkType139'
+1488989792670	geckodriver	INFO	Listening on 127.0.0.1:41985
+1488989793834	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.jgWUgZ6Hsamr
+1488989793835	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488989793839	geckodriver::marionette	INFO	Connecting to Marionette on localhost:33409
+1488989795201	Marionette	INFO	Listening on port 33409
+JavaScript error: chrome://marionette/content/listener.js, line 1001: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]
+JavaScript error: chrome://marionette/content/listener.js, line 1001: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]

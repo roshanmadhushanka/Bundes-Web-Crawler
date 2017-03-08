@@ -10,25 +10,25 @@ def getSearchUrls(company_name):
     :return: set of urls from the result
     '''
 
-    search_url = 'https://www.bundesanzeiger.de/ebanzwww/wexsservlet?global_data.designmode=eb&genericsearch_param.fulltext=' \
+    _search_url = 'https://www.bundesanzeiger.de/ebanzwww/wexsservlet?global_data.designmode=eb&genericsearch_param.fulltext=' \
                  + company_name + '&genericsearch_param.part_id=&%28page.navid%3Dto_quicksearchlist%29=Suchen'
 
-    page = urllib2.urlopen(search_url)
-    soup = BeautifulSoup(page, "lxml")
-    table_result = soup.findAll("table", {"summary": "Trefferliste"})
-    td_results = [a.find_all("td", {"class": "info"}) for a in table_result]
+    _page = urllib2.urlopen(_search_url)
+    _soup = BeautifulSoup(_page, "lxml")
+    _table_result = _soup.findAll("table", {"summary": "Trefferliste"})
+    _td_results = [a.find_all("td", {"class": "info"}) for a in _table_result]
 
-    if len(td_results) == 0:
+    if len(_td_results) == 0:
         return
 
-    available_links = []
-    for p in td_results:
+    _available_links = []
+    for p in _td_results:
         for t in p:
             for a in t:
-                result_url = 'https://www.bundesanzeiger.de/' + a['href']
-                available_links.append(result_url)
+                _result_url = 'https://www.bundesanzeiger.de/' + a['href']
+                _available_links.append(_result_url)
 
-    return available_links
+    return _available_links
 
 
 def getSearchUrlsFromDriver(company_name, driver):
@@ -40,27 +40,27 @@ def getSearchUrlsFromDriver(company_name, driver):
 
     driver.get('https://www.bundesanzeiger.de/ebanzwww/wexsservlet')
 
-    captcha_input = driver.find_element_by_id("genericsearch_param.fulltext")
-    captcha_input.send_keys(company_name)
+    _captcha_input = driver.find_element_by_id("genericsearch_param.fulltext")
+    _captcha_input.send_keys(company_name)
 
-    submit = driver.find_element_by_name("(page.navid=to_quicksearchlist)")
-    submit.click()
+    _submit = driver.find_element_by_name("(page.navid=to_quicksearchlist)")
+    _submit.click()
 
-    soup = BeautifulSoup(driver.page_source, "lxml")
-    table_result = soup.findAll("table", {"summary": "Trefferliste"})
-    td_results = [a.find_all("td", {"class": "info"}) for a in table_result]
+    _soup = BeautifulSoup(driver.page_source, "lxml")
+    _table_result = _soup.findAll("table", {"summary": "Trefferliste"})
+    _td_results = [a.find_all("td", {"class": "info"}) for a in _table_result]
 
-    if len(td_results) == 0:
+    if len(_td_results) == 0:
         return
 
-    available_links = []
-    for p in td_results:
+    _available_links = []
+    for p in _td_results:
         for t in p:
             for a in t:
                 result_url = 'https://www.bundesanzeiger.de/' + a['href']
-                available_links.append(result_url)
+                _available_links.append(result_url)
 
-    return available_links
+    return _available_links
 
 
 def getDocumentDetails(soup):
@@ -68,8 +68,8 @@ def getDocumentDetails(soup):
         print 'crawler -> getDocumentDetails : Cannot foung BeautifulSoup instance'
         return
 
-    name = soup.find("td", {"class": "first"}).text.strip()
-    info = soup.find("td", {"class": "info"}).text.strip()
-    preview_data = soup.find("div", {"id": "preview_data"}).prettify(encoding='utf-8')
+    _name = soup.find("td", {"class": "first"}).text.strip()
+    _info = soup.find("td", {"class": "info"}).text.strip()
+    _preview_data = soup.find("div", {"id": "preview_data"}).prettify(encoding='utf-8')
 
-    return {'name': name, 'info': info, 'preview_data': preview_data}
+    return {'name': _name, 'info': _info, 'preview_data': _preview_data}

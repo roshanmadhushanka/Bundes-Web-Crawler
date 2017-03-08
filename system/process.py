@@ -17,17 +17,16 @@ class Async(threading.Thread):
         self._process_q = process_q
         self._driver = driver
 
-
     def resume(self):
+        # Resume thread execution from pause state
         with self._condition:
             self._stop = False
             self._condition.notify()
 
     def run(self):
-        # self.resume()
+        # Run process queue
         while True:
             _url = self._process_q.dequeue()
-            session['current_url'] = _url
             if _url is None:
                 break
 
@@ -50,33 +49,17 @@ class Async(threading.Thread):
 
                     # Parse document data
                     _doc_data = crawler.getDocumentDetails(_soup)
-                    _file_name = _doc_data['name'] + ' ' + _doc_data['info']
+                    _file_name = _doc_data['name'] + ' ' + _doc_data['info'] + '.html'
+                    _html_string = '<html><body>' + _doc_data['preview_data'] + '</body></html>'
 
                     # Write result to file
                     file_handler = FileHandler(_file_name)
-                    file_handler.write(_doc_data['preview_data'])
+                    file_handler.write(_html_string)
                     break
                 except NoSuchElementException:
                     time.sleep(config.prop['SLEEP_TIME'])
 
     def pause(self):
+        # Pause execution of process queue
         with self._condition:
             self._stop = True
-
-    def process(self):
-        _url = self._process_q.dequeue()
-        if _url is None:
-            return
-        self._driver.get(_url)
-        try:
-            input_element = self._driver.find_element_by_id("captcha_data.solution")
-            input_element.send_keys('')
-        except NoSuchElementException:
-            pass
-
-        try:
-            element = self._driver.find_element_by_id("begin_pub")
-            soup = BeautifulSoup(self._driver.page_source, "lxml")
-            print soup.prettify()
-        except NoSuchElementException:
-            time.sleep(config.prop['SLEEP_TIME'])
