@@ -11,6 +11,7 @@ from selenium.common.exceptions import NoSuchElementException
 from system import crawler
 from system.io import FileHandler
 from system.structure import ProcessQueue
+from system.process import Async
 
 # Process queue
 process_queue = None
@@ -26,9 +27,12 @@ prcd = False
 app = Flask(__name__)
 CORS(app)
 
+# Asynchronous queue
+async = None
+
 
 def initSystem():
-    global process_queue, driver
+    global process_queue, driver, async
 
     # Initialising variables
     # Setting up process queue
@@ -37,6 +41,10 @@ def initSystem():
 
     # Selenium Firefox driver
     driver = webdriver.Firefox(executable_path=os.getcwd() + '/driver/geckodriver')
+
+    # Aasynchrnous process handler
+    async = Async(driver=driver, process_q=process_queue)
+    async.start()
 
     # Setting up sessions
     file_handler = FileHandler(config.prop['COMPANY_LIST_PATH'])
@@ -63,35 +71,6 @@ def saveSystemState():
     file_handler.write(process_queue.getItems())
 
 
-def process():
-    global driver, process_queue, prcd
-    count = 0
-    while prcd:
-        url = process_queue.dequeue()
-        if url is None:
-            break
-
-        while True:
-            driver.get(url)
-            try:
-                input_element = driver.find_element_by_id("captcha_data.solution")
-                input_element.send_keys('')
-            except NoSuchElementException:
-                pass
-
-            try:
-                element = driver.find_element_by_id("begin_pub")
-                soup = BeautifulSoup(driver.page_source, "lxml")
-                print soup.prettify()
-                break
-            except NoSuchElementException:
-                time.sleep(config.prop['SLEEP_TIME'])
-        count += 1
-        if count == config.prop['SAVE_INTERVAL']:
-            saveSystemState()
-            count = 0
-
-
 @app.route('/')
 def index():
     global initialised, driver
@@ -103,37 +82,23 @@ def index():
 
 @app.route('/start_process')
 def startProcess():
+    global async
     print "Server :", "Running"
     session['system_state'] = 'Running'
 
-    config.prop['PROCEED'] = True
-    print config.prop['PROCEED']
-
-    global prcd
-    prcd = True
-
-    thread.start_new_thread(process, ())
+    async.resume()
 
     return redirect('/')
 
 
 @app.route('/stop_process')
 def stopProcess():
+    global async
+
     print "Server :", "Idle"
     session['system_state'] = 'Idle'
-    global process_queue
-    if not isinstance(process_queue, ProcessQueue):
-        session['error'] = 'stopProcess > not a ProcessQueue'
-        return redirect('/')
 
-    file_handler = FileHandler(config.prop['LINK_LIST_PATH'])
-    file_handler.write(process_queue.getItems())
-
-    config.prop['PROCEED'] = False
-    print config.prop['PROCEED']
-
-    global prcd
-    prcd = False
+    async.pause()
 
     return redirect('/')
 
