@@ -843,3 +843,38 @@ JavaScript error: chrome://marionette/content/listener.js, line 1001: NS_ERROR_F
 (firefox:5427): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7fe5284070b0' of type 'MaiAtkType139'
 
 (firefox:5427): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7fe529657740' of type 'MaiAtkType139'
+1488938712631	geckodriver	INFO	Listening on 127.0.0.1:52091
+1488938713957	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.xDgJ4HC7cYZg
+1488938713962	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488938713967	geckodriver::marionette	INFO	Connecting to Marionette on localhost:38471
+1488938716668	Marionette	INFO	Listening on port 38471
+1488938739670	geckodriver	INFO	Listening on 127.0.0.1:54841
+1488938740887	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.HdUkIr9Disr6
+1488938740890	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1488938740895	geckodriver::marionette	INFO	Connecting to Marionette on localhost:42653
+1488938742627	Marionette	INFO	Listening on port 42653
+
+(firefox:5881): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:5881): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:5881): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:5881): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:5881): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+
+(firefox:5881): GLib-GObject-CRITICAL **: g_type_add_interface_static: assertion 'g_type_parent (interface_type) == G_TYPE_INTERFACE' failed
+*************************
+A coding exception was thrown and uncaught in a Task.
+
+Full message: TypeError: NetworkError when attempting to fetch resource.
+Full stack: 
+*************************
+JavaScript error: chrome://marionette/content/listener.js, line 1001: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]
+
+(firefox:5881): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7fdd43a1c5b0' of type 'MaiAtkType139'
+
+(firefox:5881): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7fdd439f0a60' of type 'MaiAtkType139'
+
+(firefox:5881): GLib-GObject-WARNING **: /build/glib2.0-prJhLS/glib2.0-2.48.2/./gobject/gsignal.c:3486: signal name 'selection_changed' is invalid for instance '0x7fdd439d87e0' of type 'MaiAtkType139'

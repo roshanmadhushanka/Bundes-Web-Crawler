@@ -23,11 +23,33 @@ class Async(threading.Thread):
     def run(self):
         # self.resume()
         while True:
-            with self._condition:
-                if self._stop:
-                    self._condition.wait()  # block until notified
+            # with self._condition:
+            #     if self._stop:
+            #         self._condition.wait()  # block until notified
             # do stuff
-            self.process()
+            url = self._process_q.dequeue()
+            if url is None:
+                break
+
+            while True:
+                with self._condition:
+                    if self._stop:
+                        self._condition.wait()  # block until notified
+
+                self._driver.get(url)
+                try:
+                    input_element = self._driver.find_element_by_id("captcha_data.solution")
+                    input_element.send_keys('')
+                except NoSuchElementException:
+                    pass
+
+                try:
+                    element = self._driver.find_element_by_id("begin_pub")
+                    soup = BeautifulSoup(self._driver.page_source, "lxml")
+                    print soup.prettify()
+                    break
+                except NoSuchElementException:
+                    time.sleep(config.prop['SLEEP_TIME'])
 
     def pause(self):
         with self._condition:
