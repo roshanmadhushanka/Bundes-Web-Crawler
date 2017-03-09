@@ -23,24 +23,9 @@ initialised = False
 app = Flask(__name__)
 CORS(app)
 
+
 # Asynchronous queue
 async = None
-
-
-def isInternetAvailable(host="8.8.8.8", port=53, timeout=3):
-    '''
-    Check for internet connection availability
-    :param host: google-public-dns-a.google.com
-    :param port: 53/tcp
-    :param timeout: 3 second waiting time to get a response from google server
-    :return:
-    '''
-    try:
-        socket.setdefaulttimeout(timeout)
-        socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
-        return True
-    except Exception as ex:
-        return False
 
 
 def initSystem():
@@ -50,12 +35,6 @@ def initSystem():
     # Retrieve
     file_handler = FileHandler(file_name=config.prop['COMPANY_LIST_PATH'])
     company_list = file_handler.read()
-
-    # Check for internet connection before crawling
-    if not isInternetAvailable():
-        session['error'] = "Check for internet connection"
-        print "Check for internet connection"
-        return
 
     # Load links to the system via internet
     links = []

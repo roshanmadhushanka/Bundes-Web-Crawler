@@ -1520,3 +1520,24 @@ JavaScript error: chrome://marionette/content/listener.js, line 1001: NS_ERROR_F
 1488989795201	Marionette	INFO	Listening on port 33409
 JavaScript error: chrome://marionette/content/listener.js, line 1001: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]
 JavaScript error: chrome://marionette/content/listener.js, line 1001: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]
+1489035679672	geckodriver	INFO	Listening on 127.0.0.1:44733
+1489035680887	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.tvA854qtQs0u
+1489035680888	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1489035680900	geckodriver::marionette	INFO	Connecting to Marionette on localhost:46349
+1489035682593	Marionette	INFO	Listening on port 46349
+1489035914813	geckodriver	INFO	Listening on 127.0.0.1:49545
+1489035915953	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.t1bBTLO4M6zn
+1489035915958	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1489035915965	geckodriver::marionette	INFO	Connecting to Marionette on localhost:33227
+1489035917877	Marionette	INFO	Listening on port 33227
+1489035943712	geckodriver	INFO	Listening on 127.0.0.1:37935
+1489035944850	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.D7KYCYxFPlc1
+1489035944852	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1489035944854	geckodriver::marionette	INFO	Connecting to Marionette on localhost:40477
+1489035946037	Marionette	INFO	Listening on port 40477
+1489036675991	geckodriver	INFO	Listening on 127.0.0.1:40265
+1489036677158	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.nirTr3xgA7EK
+1489036677166	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1489036677173	geckodriver::marionette	INFO	Connecting to Marionette on localhost:41745
+1489036678550	Marionette	INFO	Listening on port 41745
+JavaScript error: chrome://marionette/content/listener.js, line 1060: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]

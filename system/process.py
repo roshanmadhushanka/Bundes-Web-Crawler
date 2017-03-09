@@ -2,9 +2,8 @@ import threading
 import time
 import config
 import crawler
-
+import globals
 from bs4 import BeautifulSoup
-from flask import session
 from selenium.common.exceptions import NoSuchElementException
 from system.io import FileHandler
 
@@ -29,6 +28,9 @@ class Async(threading.Thread):
             _url = self._process_q.dequeue()
             if _url is None:
                 break
+
+            # Currently processing URL
+            # globals.setCurrentURL(_url)
 
             while True:
                 with self._condition:
@@ -55,6 +57,10 @@ class Async(threading.Thread):
                     # Write result to file
                     file_handler = FileHandler(_file_name)
                     file_handler.write(_html_string)
+
+                    # Increment process to global state
+                    # globals.incrementIteration()
+
                     break
                 except NoSuchElementException:
                     time.sleep(config.prop['SLEEP_TIME'])
