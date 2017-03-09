@@ -1,17 +1,15 @@
 import os
-import thread
-import time
+import socket
+
 import config
 
-from bs4 import BeautifulSoup
 from flask import Flask, render_template, redirect, session
 from flask_cors import CORS
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
 from system import crawler
 from system.io import FileHandler
-from system.structure import ProcessQueue
 from system.process import Async
+from system.structure import ProcessQueue
 
 # Process queue
 process_queue = None
@@ -29,6 +27,22 @@ CORS(app)
 async = None
 
 
+def isInternetAvailable(host="8.8.8.8", port=53, timeout=3):
+    '''
+    Check for internet connection availability
+    :param host: google-public-dns-a.google.com
+    :param port: 53/tcp
+    :param timeout: 3 second waiting time to get a response from google server
+    :return:
+    '''
+    try:
+        socket.setdefaulttimeout(timeout)
+        socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
+        return True
+    except Exception as ex:
+        return False
+
+
 def initSystem():
     global process_queue, driver, async
 
@@ -37,6 +51,13 @@ def initSystem():
     file_handler = FileHandler(file_name=config.prop['COMPANY_LIST_PATH'])
     company_list = file_handler.read()
 
+    # Check for internet connection before crawling
+    if not isInternetAvailable():
+        session['error'] = "Check for internet connection"
+        print "Check for internet connection"
+        return
+
+    # Load links to the system via internet
     links = []
     for company in company_list:
         links.extend(crawler.getSearchUrls(company))
