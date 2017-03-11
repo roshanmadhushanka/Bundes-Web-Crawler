@@ -52,7 +52,7 @@ class Async(threading.Thread):
 
                     # Parse document data
                     _doc_data = crawler.getDocumentDetails(_soup)
-                    _file_name = _doc_data['name'] + ' ' + _doc_data['info'] + '.html'
+                    _file_name = config.RESULT_OUT_PATH + _doc_data['name'] + ' ' + _doc_data['info'] + '.html'
                     _html_string = '<html><body>' + _doc_data['preview_data'] + '</body></html>'
 
                     # Write result to file
@@ -61,7 +61,7 @@ class Async(threading.Thread):
 
                     break
                 except NoSuchElementException:
-                    time.sleep(config.prop['SLEEP_TIME'])
+                    time.sleep(config.SLEEP_TIME)
                 except WebDriverException:
                     print "Browser has closed, terminate"
                     return

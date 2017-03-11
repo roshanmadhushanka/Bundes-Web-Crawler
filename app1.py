@@ -1,4 +1,6 @@
 import os
+from urllib2 import URLError
+
 import config
 from flask import Flask, render_template, redirect, session, request
 from flask_cors import CORS
@@ -26,6 +28,7 @@ CORS(app)
 # Asynchronous queue
 async = None
 
+
 def initSystem():
     global process_queue, driver, async, company_queue
 
@@ -43,7 +46,11 @@ def initSystem():
 
     links = []
     for company in company_list:
-        links.extend(crawler.getSearchUrls(company))
+        try:
+            links.extend(crawler.getSearchUrls(company))
+        except URLError:
+            session['error'] = 'Connection timeout'
+            return
 
     file_handler = FileHandler(file_name=config.LINK_LIST_PATH)
     file_handler.write(links)
@@ -52,6 +59,7 @@ def initSystem():
     process_queue = ProcessQueue(links)
 
     # Selenium Firefox driver
+    print config.GECKODRIVER_PATH
     driver = webdriver.Firefox(executable_path=config.GECKODRIVER_PATH)
     driver.start_client()
 
@@ -62,6 +70,7 @@ def initSystem():
     # Setting up session
     session['link_list'] = links
     session['company_list'] = company_list
+    session['system_state'] = 'Idle'
 
     if not os.path.exists(config.RESULT_OUT_PATH):
         os.makedirs(config.RESULT_OUT_PATH)
@@ -73,6 +82,9 @@ def index():
 
     if 'error' in session.keys():
         session.pop('error')
+
+    if 'info' in session.keys():
+        session.pop('info')
 
     if not initialised:
         initSystem()
@@ -105,9 +117,32 @@ def stopProcess():
 
 @app.route('/get_next', methods=['POST'])
 def getNext():
+    global company_queue, process_queue, async
     if request.method == 'POST':
-        next_n = request.form['next_n']
-        print next_n
+        next_n = int(request.form['next_n'])
+        if company_queue is not None and isinstance(company_queue, NextQueue):
+            session['system_state'] = 'Crawling'
+
+            company_list = company_queue.getNext(next_n)
+            links = []
+
+            for company in company_list:
+                try:
+                    links.extend(crawler.getSearchUrls(company))
+                except URLError:
+                    session['error'] = 'Connection timeout'
+                    return
+
+            print links
+            process_queue = ProcessQueue(links)
+
+            async = Async(driver=driver, process_q=process_queue)
+            async.start()
+
+            session['link_list'] = links
+            session['company_list'] = company_list
+            session['system_state'] = 'Idle'
+
     return redirect('/')
 
 
@@ -136,4 +171,4 @@ def loadURLList():
 
 if __name__ == '__main__':
     app.secret_key = 'super secret key'
-    app.run(debug=True, host='0.0.0.0')
+    app.run(debug=True, port=4000)

@@ -59,9 +59,9 @@ class NextQueue:
 
     def getNext(self, count):
         result = []
-        if count >= len(self._queue):
-            result = self
-            self._queue = self._queue[:count]
+        if count < len(self._queue):
+            result = self._queue[:count]
+            self._queue = self._queue[count:]
         else:
             result = self._queue
             self._queue = []

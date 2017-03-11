@@ -1,29 +1,25 @@
-1488701769887	geckodriver	INFO	Listening on 127.0.0.1:4047
-1488701771967	mozprofile::profile	INFO	Using profile path C:\Users\Roshan\AppData\Local\Temp\rust_mozprofile.GHBdzRGc5qyL
-1488701771972	geckodriver::marionette	INFO	Starting browser C:\Program Files (x86)\Mozilla Firefox\firefox.exe
-1488701771977	geckodriver::marionette	INFO	Connecting to Marionette on localhost:4054
-1488701772733	Marionette	INFO	Listening on port 4054
-[Child 11056] WARNING: pipe error: 109: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
-[Child 11056] WARNING: pipe err[Child 6188] WARNING: pipe error: 109: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
-1488722897914	geckodriver	INFO	Listening on 127.0.0.1:34451
-1488722899398	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.omjoySvwdPPk
-1488722899402	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
-1488722899420	geckodriver::marionette	INFO	Connecting to Marionette on localhost:36041
-1488722902060	Marionette	INFO	Listening on port 36041
-1488723285219	geckodriver	INFO	Listening on 127.0.0.1:38675
-1488723286442	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.gBKKfne6Ot0m
-1488723286446	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
-1488723286456	geckodriver::marionette	INFO	Connecting to Marionette on localhost:42407
-1488723288228	Marionette	INFO	Listening on port 42407
-*************************
-A coding exception was thrown and uncaught in a Task.
+1489227178296	geckodriver	INFO	Listening on 127.0.0.1:2839
+1489227180358	mozprofile::profile	INFO	Using profile path C:\Users\Roshan\AppData\Local\Temp\rust_mozprofile.KQZPMX08na3o
+1489227180374	geckodriver::marionette	INFO	Starting browser C:\Program Files (x86)\Mozilla Firefox\firefox.exe
+1489227180380	geckodriver::marionette	INFO	Connecting to Marionette on localhost:2845
+1489227180935	Marionette	INFO	Listening on port 2845
+JavaScript error: chrome://marionette/content/listener.js, line 1001: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]
+JavaScript error: chrome://marionette/content/listener.js, line 1001: NS_ERROR_FAILURE: Component returned failure code: 0x80004005 (NS_ERROR_FAILURE) [nsIWebProgress.removeProgressListener]
+ror: 109: file c:/builds/moz2_slave/m-rel-w32-00000000000000000000/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+1489226557987	addons.productaddons	WARN	Failed downloading via XHR, status: 0, reason: error
+browser/content/tab-content.js, line 322: NS_ERROR_UNEXPECTED: Component returned failure code: 0x8000ffff (NS_ERROR_UNEXPECTED) [nsIMessageSender.sendAsyncMessage]
 
-Full message: TypeError: this.browserForTab is undefined
-Full stack: hasRemotenessChange@chrome://marionette/content/browser.js:233:9
-executeWhenReady@chrome://marionette/content/browser.js:264:9
-GeckoDriver.prototype.sendAsync@chrome://marionette/content/driver.js:218:5
-send/<@chrome://marionette/content/proxy.js:138:7
-send@chrome://marionette/content/proxy.js:105:12
+###!!! [Child][MessageChannel] Error: (msgtype=0x2E0001,name=PBrowser::Msg_AsyncMessage) Closed channel: cannot send/recv
+
+JavaScript error: chrome://browser/content/content.js, line 651: NS_ERROR_UNEXPECTED: Component returned failure code: 0x8000ffff (NS_ERROR_UNEXPECTED) [nsIMessageSender.sendAsyncMessage]
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x2E0001,name=PBrowser::Msg_AsyncMessage) Closed channel: cannot send/recv
+
+JavaScript error: chrome://global/content/browser-child.js, line 115: NS_ERROR_UNEXPECTED: Component returned failure code: 0x8000ffff (NS_ERROR_UNEXPECTED) [nsIMessageSender.sendAsyncMessage]
+
+###!!! [Child][MessageChannel] Error: (msgtype=0x2E002A,name=PBrowser::Msg_SetInputContext) Closed channel: cannot send/recv
+
+onette/content/proxy.js:105:12
 ownPriorityGetterTrap.get/<@chrome://marionette/content/proxy.js:24:25
 GeckoDriver.prototype.get@chrome://marionette/content/driver.js:968:17
 TaskImpl_run@resource://gre/modules/Task.jsm:319:40
