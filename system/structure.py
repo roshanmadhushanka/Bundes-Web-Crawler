@@ -51,3 +51,21 @@ class LinkQueue:
         return _data
 
 
+class NextQueue:
+    def __init__(self, items):
+        self._queue = None
+        if isinstance(items, list):
+            self._queue = items
+
+    def getNext(self, count):
+        result = []
+        if count >= len(self._queue):
+            result = self
+            self._queue = self._queue[:count]
+        else:
+            result = self._queue
+            self._queue = []
+        return result
+
+
+

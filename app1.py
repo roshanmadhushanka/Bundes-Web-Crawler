@@ -1,15 +1,15 @@
 import os
-import socket
-
 import config
-
-from flask import Flask, render_template, redirect, session
+from flask import Flask, render_template, redirect, session, request
 from flask_cors import CORS
 from selenium import webdriver
 from system import crawler
 from system.io import FileHandler
 from system.process import Async
-from system.structure import ProcessQueue
+from system.structure import ProcessQueue, NextQueue
+
+# Company list
+company_queue = None
 
 # Process queue
 process_queue = None
@@ -23,32 +23,37 @@ initialised = False
 app = Flask(__name__)
 CORS(app)
 
-
 # Asynchronous queue
 async = None
 
-
 def initSystem():
-    global process_queue, driver, async
+    global process_queue, driver, async, company_queue
 
     # Initialising variables
     # Retrieve
-    file_handler = FileHandler(file_name=config.prop['COMPANY_LIST_PATH'])
+    file_handler = FileHandler(file_name=config.COMPANY_LIST_PATH)
     company_list = file_handler.read()
 
+    if company_list is None:
+        session['error'] = 'Company list cannot be found'
+        return
+
     # Load links to the system via internet
+    company_queue = NextQueue(company_list)
+
     links = []
     for company in company_list:
         links.extend(crawler.getSearchUrls(company))
 
-    file_handler = FileHandler(file_name=config.prop['LINK_LIST_PATH'])
+    file_handler = FileHandler(file_name=config.LINK_LIST_PATH)
     file_handler.write(links)
 
     # Setting up process queue
     process_queue = ProcessQueue(links)
 
     # Selenium Firefox driver
-    driver = webdriver.Firefox(executable_path=os.getcwd() + '/driver/geckodriver')
+    driver = webdriver.Firefox(executable_path=config.GECKODRIVER_PATH)
+    driver.start_client()
 
     # Asynchronous process handler
     async = Async(driver=driver, process_q=process_queue)
@@ -58,27 +63,17 @@ def initSystem():
     session['link_list'] = links
     session['company_list'] = company_list
 
-    # Load configuration
-    config.loadConfig()
-
-
-def saveSystemState():
-    '''
-    Save system state
-    :return:
-    '''
-    global process_queue
-    if not isinstance(process_queue, ProcessQueue):
-        return
-
-    config.saveConfig()
-    file_handler = FileHandler(config.prop['LINK_LIST_PATH'])
-    file_handler.write(process_queue.getItems())
+    if not os.path.exists(config.RESULT_OUT_PATH):
+        os.makedirs(config.RESULT_OUT_PATH)
 
 
 @app.route('/')
 def index():
-    global initialised, driver
+    global initialised, driver, process_queue
+
+    if 'error' in session.keys():
+        session.pop('error')
+
     if not initialised:
         initSystem()
         initialised = True
@@ -108,6 +103,14 @@ def stopProcess():
     return redirect('/')
 
 
+@app.route('/get_next', methods=['POST'])
+def getNext():
+    if request.method == 'POST':
+        next_n = request.form['next_n']
+        print next_n
+    return redirect('/')
+
+
 @app.route('/load_url_list')
 def loadURLList():
     global process_queue
@@ -116,22 +119,21 @@ def loadURLList():
         session['error'] = 'loadURLList > not a ProcessQueue'
         return redirect('/')
 
-    file_handler = FileHandler(file_name=config.prop['COMPANY_LIST_PATH'])
+    file_handler = FileHandler(file_name=config.COMPANY_LIST_PATH)
     company_list = file_handler.read()
 
     links = []
     for company in company_list:
         links.extend(crawler.getSearchUrls(company))
 
-    file_handler = FileHandler(file_name=config.prop['LINK_LIST_PATH'])
+    file_handler = FileHandler(file_name=config.LINK_LIST_PATH)
     file_handler.write(links)
 
     initSystem()
 
     return redirect('/')
 
+
 if __name__ == '__main__':
     app.secret_key = 'super secret key'
-    app.run(debug=True, port=4000)
-
-
+    app.run(debug=True, host='0.0.0.0')

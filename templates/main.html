@@ -23,7 +23,34 @@
         <div class="row" id="page-title">
             <div class="center-block jumbotron"><h1> Bundesanzeiger </h1></div>
         </div>
+        {% if session['error'] %}
+            <div class="alert alert-danger">
+                <strong>Error!</strong> {{ session['error'] }}
+            </div>
+        {% endif %}
         <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    {% if session['system_state'] %}
+                        {% if session['system_state'] == "Running" %}
+                            <h2>Running</h2>
+                        {% endif %}
+                        {% if session['system_state'] == "Idle" %}
+                            <h2>Idle</h2>
+                        {% endif %}
+                    {% endif %}
+                    <a href="/start_process" class="btn btn-success">Start Process</a>
+                    <a href="/stop_process" class="btn btn-danger">Stop Process</a>
+                    <a href="/load_url_list" class="btn btn-info">Load URL</a>
+                    <form action="/get_next" method="post">
+                        <input type="text" name="next_n" value="2">
+                        <input class="btn btn-info" type="submit" value="Next">
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-3">
+
+            </div>
             <div class="col-md-3">
                 <div class="form-group" id="company-table">
                     <h2> Company List </h2>
@@ -50,23 +77,7 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="form-group">
-                    {% if session['system_state'] %}
-                        {% if session['system_state'] == "Running" %}
-                            <h2>Running</h2>
-                        {% endif %}
-                        {% if session['system_state'] == "Idle" %}
-                            <h2>Idle</h2>
-                        {% endif %}
-                    {% endif %}
-                    <a href="/start_process" class="btn btn-success">Start Process</a>
-                    <a href="/stop_process" class="btn btn-danger">Stop Process</a>
-                    <a href="/load_url_list" class="btn btn-info">Load URL</a>
-                </div>
-            </div>
         </div>
-
     </div>
 </body>
 </html>

@@ -2,9 +2,8 @@ import threading
 import time
 import config
 import crawler
-import globals
 from bs4 import BeautifulSoup
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, WebDriverException
 from system.io import FileHandler
 
 
@@ -29,15 +28,17 @@ class Async(threading.Thread):
             if _url is None:
                 break
 
-            # Currently processing URL
-            # globals.setCurrentURL(_url)
-
             while True:
                 with self._condition:
                     if self._stop:
                         self._condition.wait()  # block until notified
 
-                self._driver.get(_url)
+                try:
+                    self._driver.get(_url)
+                except WebDriverException:
+                    print "Browser has closed, terminate"
+                    return
+
                 try:
                     _input_element = self._driver.find_element_by_id("captcha_data.solution")
                     _input_element.send_keys('')
@@ -58,12 +59,12 @@ class Async(threading.Thread):
                     file_handler = FileHandler(_file_name)
                     file_handler.write(_html_string)
 
-                    # Increment process to global state
-                    # globals.incrementIteration()
-
                     break
                 except NoSuchElementException:
                     time.sleep(config.prop['SLEEP_TIME'])
+                except WebDriverException:
+                    print "Browser has closed, terminate"
+                    return
 
     def pause(self):
         # Pause execution of process queue
