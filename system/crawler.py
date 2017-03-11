@@ -64,6 +64,11 @@ def getSearchUrlsFromDriver(company_name, driver):
 
 
 def getDocumentDetails(soup):
+    '''
+    Extract useful document details from a given Web page
+    :param soup: soup element of a particular Web page
+    :return: dictionary of useful details
+    '''
     if not isinstance(soup, BeautifulSoup):
         print 'crawler -> getDocumentDetails : Cannot foung BeautifulSoup instance'
         return

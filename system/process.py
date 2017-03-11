@@ -16,12 +16,20 @@ class Async(threading.Thread):
         self._driver = driver
 
     def resume(self):
+        '''
+        Resume process queue operations
+        :return: None
+        '''
         # Resume thread execution from pause state
         with self._condition:
             self._stop = False
             self._condition.notify()
 
     def run(self):
+        '''
+        Initiate process queue execution
+        :return: None
+        '''
         # Run process queue
         while True:
             _url = self._process_q.dequeue()
@@ -67,6 +75,10 @@ class Async(threading.Thread):
                     return
 
     def pause(self):
+        '''
+        Pause process queue operations
+        :return:
+        '''
         # Pause execution of process queue
         with self._condition:
             self._stop = True

@@ -3,6 +3,10 @@ class FileHandler:
         self.file_name = file_name
 
     def read(self):
+        '''
+        Read from a specific file
+        :return:
+        '''
         _file = None
         _lines = None
         try:
@@ -17,6 +21,11 @@ class FileHandler:
         return _lines
 
     def append(self, line):
+        '''
+        Append lines to a specific file
+        :param line: String
+        :return: None
+        '''
         _file = None
         if isinstance(line, str):
             try:
@@ -29,6 +38,11 @@ class FileHandler:
                     _file.close()
 
     def write(self, content):
+        '''
+        Write contents to a specific file
+        :param content: can be a string or list of strings
+        :return: None
+        '''
         _file = None
         try:
             _file = open(self.file_name, 'w')
