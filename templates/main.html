@@ -39,15 +39,14 @@
                     {% if session['system_state'] %}
                         {% if session['system_state'] == "Running" %}
                             <h2>Running</h2>
+                            <a href="/stop_process" class="btn btn-danger">Stop Process</a>
                         {% endif %}
                         {% if session['system_state'] == "Idle" %}
                             <h2>Idle</h2>
+                            <a href="/start_process" class="btn btn-success">Start Process</a>
                         {% endif %}
                     {% endif %}
-                    <a href="/start_process" class="btn btn-success">Start Process</a>
-                    <a href="/stop_process" class="btn btn-danger">Stop Process</a>
                     <a href="/load_url_list" class="btn btn-info">Load URL</a>
-
                 </div>
             </div>
             <div class="col-md-3">
