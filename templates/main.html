@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>.:: Bundesanzeiger ::.</title>
+    <title>.:: CrawlX ::.</title>
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -21,7 +21,7 @@
 <body>
     <div class="container">
         <div class="row" id="page-title">
-            <div class="center-block jumbotron"><h1> Bundesanzeiger </h1></div>
+            <div class="center-block jumbotron"><h1> CrawlX </h1></div>
         </div>
         {% if session['error'] %}
             <div class="alert alert-danger">
@@ -36,48 +36,64 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
+                    <h3 class="modal-header"> System State </h3>
                     {% if session['system_state'] %}
                         {% if session['system_state'] == "Running" %}
-                            <h2>Running</h2>
-                            <a href="/stop_process" class="btn btn-danger">Stop Process</a>
+                            <h2 class="center-block text-center text-info">Running</h2>
+                            <a href="/stop_process" class="btn btn-danger text-center center-block">Stop Process</a>
                         {% endif %}
                         {% if session['system_state'] == "Idle" %}
-                            <h2>Idle</h2>
-                            <a href="/start_process" class="btn btn-success">Start Process</a>
+                            <h2 class="center-block text-center text-info">Idle</h2>
+                            <a href="/start_process" class="btn btn-success text-center center-block">Start Process</a>
                         {% endif %}
                     {% endif %}
-                    <a href="/load_url_list" class="btn btn-info">Load URL</a>
+                    <a href="/load_url_list" class="btn btn-info text-center center-block">Load Link List</a>
+                </div>
+                <div class="form-group">
+                    <h3 class="modal-header"> Customize Load </h3>
+                    <form action="/get_next" method="post" class="form-group form-inline">
+                        <input type="text" name="next_n" value="5">
+                        <input class="btn btn-info" type="submit" value="Next" width="100%">
+                    </form>
+                </div>
+                <div>
+                    <h3 class="modal-header"> Add Companies </h3>
+                    <p> Upload txt file </p>
+                    <form action="upload" method="post" enctype=multipart/form-data class="form-group form-inline">
+                        <input type="file" name="file">
+                        <input type="submit" value="Upload" class="btn btn-info">
+                    </form>
                 </div>
             </div>
             <div class="col-md-3">
-                <form action="/get_next" method="post">
-                    <input type="text" name="next_n" value="2">
-                    <input class="btn btn-info" type="submit" value="Next">
-                </form>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group" id="company-table">
-                    <h2> Company List </h2>
+                <div class="row" id="company-table">
+                    <h2 class="modal-header"> Company List </h2>
                     {% if session['company_list'] %}
-                    <table class="table">
+                    <nav class="col-sm-3">
+                        <ul class="nav nav-pills nav-stacked">
                         {% for url in session['company_list'] %}
-                            <tr>
-                                <td>{{ url }}</td>
-                            </tr>
+                            <li class="list-group-item-text">
+                                <p>{{ url }}</p>
+                            </li>
                         {% endfor %}
-                    </table>
+                        </ul>
+                    </nav>
                     {% endif %}
                 </div>
-                <div class="form-group" id="url-table">
-                    <h2> Link List </h2>
+            </div>
+            <div class="col-md-3">
+                <div class="row" id="url-table">
+                    <h2 class="modal-header"> Link List </h2>
                     {% if session['link_list'] %}
-                    <table class="table">
+                    <nav class="col-sm-3">
+                        <ul class="nav nav-pills navbar-collapse">
                         {% for url in session['link_list'] %}
-                            <tr>
-                                <td>{{ loop.index }} - {{ url }}</td>
-                            </tr>
+                            <li>
+                                <p>{{ loop.index }} - {{ url }}</p>
+                            </li>
                         {% endfor %}
-                    </table>
+                        </ul>
+                    </nav>
                     {% endif %}
                 </div>
             </div>

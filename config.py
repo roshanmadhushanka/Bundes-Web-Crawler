@@ -6,8 +6,11 @@ SAVE_INTERVAL = 1
 LINK_LIST_PATH = 'link_list'
 COMPANY_LIST_PATH = 'company_list'
 HOME = os.getcwd()
-GECKODRIVER_PATH = HOME + '\driver\geckodriver.exe'
-RESULT_OUT_PATH = HOME + '\\result\\'
+GECKODRIVER_PATH = HOME + '/driver/geckodriver'
+RESULT_OUT_PATH = HOME + '/result/'
+DATABASE_PATH = HOME + '/database/'
+# ECKODRIVER_PATH = HOME + '\driver\geckodriver'
+# RESULT_OUT_PATH = HOME + '\\result\\'
 
 
 

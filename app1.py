@@ -1,6 +1,8 @@
 import os
 from urllib2 import URLError
 
+from flask import url_for
+
 import config
 from flask import Flask, render_template, redirect, session, request
 from flask_cors import CORS
@@ -28,6 +30,14 @@ CORS(app)
 # Asynchronous queue
 async = None
 
+# Server upload
+ALLOWED_EXTENSIONS = set(['.txt'])
+
+
+def isAllowed(file_name):
+    return '.' in file_name and \
+           file_name.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
 
 def initSystem():
     global process_queue, driver, async, company_queue
@@ -44,36 +54,19 @@ def initSystem():
     # Load links to the system via internet
     company_queue = NextQueue(company_list)
 
-    links = []
-    for company in company_list:
-        try:
-            links.extend(crawler.getSearchUrls(company))
-        except URLError:
-            session['error'] = 'Connection timeout'
-            return
-
-    file_handler = FileHandler(file_name=config.LINK_LIST_PATH)
-    file_handler.write(links)
-
-    # Setting up process queue
-    process_queue = ProcessQueue(links)
-
     # Selenium Firefox driver
-    print config.GECKODRIVER_PATH
     driver = webdriver.Firefox(executable_path=config.GECKODRIVER_PATH)
     driver.start_client()
 
-    # Asynchronous process handler
-    async = Async(driver=driver, process_q=process_queue)
-    async.start()
-
     # Setting up session
-    session['link_list'] = links
     session['company_list'] = company_list
     session['system_state'] = 'Idle'
 
     if not os.path.exists(config.RESULT_OUT_PATH):
         os.makedirs(config.RESULT_OUT_PATH)
+
+    if not os.path.exists(config.DATABASE_PATH):
+        os.makedirs(config.DATABASE_PATH)
 
 
 @app.route('/')
@@ -89,43 +82,48 @@ def index():
     if not initialised:
         initSystem()
         initialised = True
+
     return render_template('main.html')
 
 
 @app.route('/start_process')
 def startProcess():
     global async
-    print "Server :", "Running"
-    session['system_state'] = 'Running'
 
-    async.resume()
+    if async is not None:
+        print "Server :", "Running"
+        session['system_state'] = 'Running'
+        async.resume()
 
     return redirect('/')
 
 
 @app.route('/stop_process')
 def stopProcess():
-    global async
+    global async, driver
 
-    print "Server :", "Idle"
-    session['system_state'] = 'Idle'
-
-    async.pause()
+    if async is not None:
+        print "Server :", "Idle"
+        session['system_state'] = 'Idle'
+        async.pause()
 
     return redirect('/')
 
 
 @app.route('/get_next', methods=['POST'])
 def getNext():
-    global company_queue, process_queue, async
+    # Load company list partially
+    global company_queue, process_queue, async, driver
+
     if request.method == 'POST':
         next_n = int(request.form['next_n'])
+
         if company_queue is not None and isinstance(company_queue, NextQueue):
             session['system_state'] = 'Crawling'
 
+            # Crawl company list
             company_list = company_queue.getNext(next_n)
             links = []
-
             for company in company_list:
                 try:
                     links.extend(crawler.getSearchUrls(company))
@@ -133,12 +131,18 @@ def getNext():
                     session['error'] = 'Connection timeout'
                     return
 
-            print links
+            # Create new process queue
             process_queue = ProcessQueue(links)
 
+            if async is not None:
+                # Stop previous queue process
+                async.pause()
+
+            # Initiate new queue process
             async = Async(driver=driver, process_q=process_queue)
             async.start()
 
+            # Set sessions
             session['link_list'] = links
             session['company_list'] = company_list
             session['system_state'] = 'Idle'
@@ -148,11 +152,8 @@ def getNext():
 
 @app.route('/load_url_list')
 def loadURLList():
-    global process_queue
-
-    if not isinstance(process_queue, ProcessQueue):
-        session['error'] = 'loadURLList > not a ProcessQueue'
-        return redirect('/')
+    # Load entire company list at once and generate link list
+    global process_queue, async, driver
 
     file_handler = FileHandler(file_name=config.COMPANY_LIST_PATH)
     company_list = file_handler.read()
@@ -164,11 +165,36 @@ def loadURLList():
     file_handler = FileHandler(file_name=config.LINK_LIST_PATH)
     file_handler.write(links)
 
-    initSystem()
+    # Create new process queue
+    process_queue = ProcessQueue(links)
+
+    if async is not None:
+        # Stop previous queue process
+        async.pause()
+
+    # Initiate new queue process
+    async = Async(driver=driver, process_q=process_queue)
+    async.start()
+
+    session['link_list'] = links
+    session['company_list'] = company_list
+    session['system_state'] = 'Idle'
 
     return redirect('/')
 
 
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+    # Upload files to the server
+    if request.method == 'POST':
+        file = request.files['file']
+        if file and isAllowed(file.filename):
+            filename = 'company.txt'
+            file.save(os.path.join(config.DATABASE_PATH, filename))
+
+    return redirect('/')
+
 if __name__ == '__main__':
     app.secret_key = 'super secret key'
+    app.jinja_env.cache = {}
     app.run(debug=True, port=5002)
