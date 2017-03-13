@@ -1,6 +1,7 @@
-import urllib2
+import urllib
 from bs4 import BeautifulSoup
-from flask import request
+import urllib.parse
+import sys
 
 
 def getSearchUrls(company_name):
@@ -11,9 +12,9 @@ def getSearchUrls(company_name):
     '''
 
     _search_url = 'https://www.bundesanzeiger.de/ebanzwww/wexsservlet?global_data.designmode=eb&genericsearch_param.fulltext=' \
-                 + company_name + '&genericsearch_param.part_id=&%28page.navid%3Dto_quicksearchlist%29=Suchen'
+                 + urllib.parse.quote_plus(company_name) + '&genericsearch_param.part_id=&%28page.navid%3Dto_quicksearchlist%29=Suchen'
 
-    _page = urllib2.urlopen(_search_url)
+    _page = urllib.request.urlopen(_search_url)
     _soup = BeautifulSoup(_page, "lxml")
     _table_result = _soup.findAll("table", {"summary": "Trefferliste"})
     _td_results = [a.find_all("td", {"class": "info"}) for a in _table_result]
@@ -25,8 +26,13 @@ def getSearchUrls(company_name):
     for p in _td_results:
         for t in p:
             for a in t:
-                _result_url = 'https://www.bundesanzeiger.de/' + a['href']
-                _available_links.append(_result_url)
+                try:
+                    _result_url = 'https://www.bundesanzeiger.de/' + a['href']
+                    _available_links.append(_result_url)
+                except KeyError:
+                    pass
+                except TypeError:
+                    pass
 
     return _available_links
 
@@ -47,13 +53,15 @@ def getSearchUrlsFromDriver(company_name, driver):
     _submit.click()
 
     _soup = BeautifulSoup(driver.page_source, "lxml")
+
     _table_result = _soup.findAll("table", {"summary": "Trefferliste"})
     _td_results = [a.find_all("td", {"class": "info"}) for a in _table_result]
+
+    print(_table_result)
 
     _available_links = []
     if len(_td_results) == 0:
         return _available_links
-
 
     for p in _td_results:
         for t in p:
@@ -71,11 +79,11 @@ def getDocumentDetails(soup):
     :return: dictionary of useful details
     '''
     if not isinstance(soup, BeautifulSoup):
-        print 'crawler -> getDocumentDetails : Cannot foung BeautifulSoup instance'
+        print('crawler -> getDocumentDetails : Cannot foung BeautifulSoup instance')
         return
 
     _name = soup.find("td", {"class": "first"}).text.strip()
     _info = soup.find("td", {"class": "info"}).text.strip()
-    _preview_data = soup.find("div", {"id": "preview_data"}).prettify(encoding='utf-8')
+    _preview_data = soup.find("div", {"id": "preview_data"}).prettify()
 
-    return {'name': _name, 'info': _info, 'preview_data': _preview_data}
+    return {'name': _name, 'info': _info, 'preview_data': _preview_data.encode(sys.stdout.encoding, errors='replace')}

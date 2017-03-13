@@ -1,7 +1,7 @@
 import threading
 import time
 import config
-import crawler
+import system.crawler as crawler
 from bs4 import BeautifulSoup
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 from system.io import FileHandler
@@ -44,7 +44,7 @@ class Async(threading.Thread):
                 try:
                     self._driver.get(_url)
                 except WebDriverException:
-                    print "Browser has closed, terminate"
+                    print("Browser has closed, terminate")
                     return
 
                 try:
@@ -61,7 +61,7 @@ class Async(threading.Thread):
                     # Parse document data
                     _doc_data = crawler.getDocumentDetails(_soup)
                     _file_name = config.RESULT_OUT_PATH + _doc_data['name'] + ' ' + _doc_data['info'] + '.html'
-                    _html_string = '<html><body>' + _doc_data['preview_data'] + '</body></html>'
+                    _html_string = '<html><body>' + _doc_data['preview_data'].decode('utf-8') + '</body></html>'
 
                     # Write result to file
                     file_handler = FileHandler(_file_name)
@@ -71,7 +71,7 @@ class Async(threading.Thread):
                 except NoSuchElementException:
                     time.sleep(config.SLEEP_TIME)
                 except WebDriverException:
-                    print "Browser has closed, terminate"
+                    print("Browser has closed, terminate")
                     return
 
     def pause(self):

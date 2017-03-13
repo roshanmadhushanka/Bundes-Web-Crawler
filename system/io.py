@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class FileHandler:
     def __init__(self, file_name):
         self.file_name = file_name
@@ -14,7 +16,7 @@ class FileHandler:
             _lines = _file.readlines()
             _lines = [a.rstrip() for a in _lines if a != '\n']
         except IOError:
-            print "IO Error has occurred"
+            print("IO Error")
             pass
         finally:
             if _file is not None:
@@ -29,14 +31,14 @@ class FileHandler:
         '''
         _file = None
         try:
-            _file = open(self.file_name, 'a')
+            _file = open(self.file_name, 'a', encoding='utf-8')
             if isinstance(content, str):
                 _file.write(content + '\n')
             elif isinstance(content, list):
                 for line in content:
                     _file.write(line.encode('utf-8') + '\n')
         except IOError:
-            print 'IO Error'
+            print('IO Error')
             return
         finally:
             if _file is not None:
@@ -50,7 +52,7 @@ class FileHandler:
         '''
         _file = None
         try:
-            _file = open(self.file_name, 'w')
+            _file = open(self.file_name, 'w', encoding='utf-8')
             if isinstance(content, str):
                 _file.write(content)
             elif isinstance(content, list):
