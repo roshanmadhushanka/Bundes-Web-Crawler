@@ -1,17 +1,16 @@
 import os
 from urllib2 import URLError
 
-from flask import url_for
-
-import config
 from flask import Flask, render_template, redirect, session, request
 from flask_cors import CORS
 from selenium import webdriver
+
+import config
 from system import crawler
 from system.io import FileHandler
 from system.process import Async
 from system.structure import ProcessQueue, NextQueue
-
+import sys
 # Company list
 company_queue = None
 
@@ -31,12 +30,12 @@ CORS(app)
 async = None
 
 # Server upload
-ALLOWED_EXTENSIONS = set(['.txt'])
+ALLOWED_EXTENSIONS = set(['txt'])
 
 
 def isAllowed(file_name):
-    return '.' in file_name and \
-           file_name.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+    global ALLOWED_EXTENSIONS
+    return '.' in file_name and file_name.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
 def initSystem():
@@ -46,12 +45,13 @@ def initSystem():
     # Retrieve
     file_handler = FileHandler(file_name=config.COMPANY_LIST_PATH)
     company_list = file_handler.read()
+    company_list = [a.decode('utf-8') for a in company_list]
 
     if company_list is None:
         session['error'] = 'Company list cannot be found'
         return
 
-    # Load links to the system via internet
+    # Load company list to  the next queue
     company_queue = NextQueue(company_list)
 
     # Selenium Firefox driver
@@ -59,6 +59,7 @@ def initSystem():
     driver.start_client()
 
     # Setting up session
+
     session['company_list'] = company_list
     session['system_state'] = 'Idle'
 
@@ -67,6 +68,9 @@ def initSystem():
 
     if not os.path.exists(config.DATABASE_PATH):
         os.makedirs(config.DATABASE_PATH)
+
+    reload(sys)
+    sys.setdefaultencoding('utf-8')
 
 
 @app.route('/')
@@ -160,7 +164,7 @@ def loadURLList():
 
     links = []
     for company in company_list:
-        links.extend(crawler.getSearchUrls(company))
+        links.extend(crawler.getSearchUrlsFromDriver(company, driver))
 
     file_handler = FileHandler(file_name=config.LINK_LIST_PATH)
     file_handler.write(links)
@@ -185,12 +189,38 @@ def loadURLList():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
+    global company_queue
     # Upload files to the server
     if request.method == 'POST':
         file = request.files['file']
         if file and isAllowed(file.filename):
-            filename = 'company.txt'
-            file.save(os.path.join(config.DATABASE_PATH, filename))
+            # Save uploaded data
+            file_name = 'company.txt'
+            file.save(os.path.join(config.DATABASE_PATH, file_name))
+
+            # Read uploaded data
+            file_path = config.DATABASE_PATH + file_name
+            file_handler = FileHandler(file_path)
+            content = file_handler.read()
+
+            # Read company list
+            file_handler = FileHandler(config.COMPANY_LIST_PATH)
+            company_list = file_handler.read()
+
+            # Extend company list with uploaded values
+            company_list.extend(content)
+
+            # Filter unique values
+            company_list = list(set(company_list))
+
+            # Save company list
+            file_handler.write(company_list)
+
+            # Load company list to  the next queue
+            company_queue = NextQueue(company_list)
+
+            # Set session
+            session['company_list'] = company_list
 
     return redirect('/')
 

@@ -18,10 +18,10 @@ def getSearchUrls(company_name):
     _table_result = _soup.findAll("table", {"summary": "Trefferliste"})
     _td_results = [a.find_all("td", {"class": "info"}) for a in _table_result]
 
-    if len(_td_results) == 0:
-        return
-
     _available_links = []
+    if len(_td_results) == 0:
+        return _available_links
+
     for p in _td_results:
         for t in p:
             for a in t:
@@ -50,10 +50,11 @@ def getSearchUrlsFromDriver(company_name, driver):
     _table_result = _soup.findAll("table", {"summary": "Trefferliste"})
     _td_results = [a.find_all("td", {"class": "info"}) for a in _table_result]
 
-    if len(_td_results) == 0:
-        return
-
     _available_links = []
+    if len(_td_results) == 0:
+        return _available_links
+
+
     for p in _td_results:
         for t in p:
             for a in t:

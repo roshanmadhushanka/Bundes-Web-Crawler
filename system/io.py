@@ -14,28 +14,33 @@ class FileHandler:
             _lines = _file.readlines()
             _lines = [a.rstrip() for a in _lines if a != '\n']
         except IOError:
+            print "IO Error has occurred"
             pass
         finally:
             if _file is not None:
                 _file.close()
         return _lines
 
-    def append(self, line):
+    def append(self, content):
         '''
         Append lines to a specific file
-        :param line: String
+        :param content: String
         :return: None
         '''
         _file = None
-        if isinstance(line, str):
-            try:
-                _file = open(self.file_name, 'a')
-                _file.write(line + '\n')
-            except IOError:
-                pass
-            finally:
-                if _file is not None:
-                    _file.close()
+        try:
+            _file = open(self.file_name, 'a')
+            if isinstance(content, str):
+                _file.write(content + '\n')
+            elif isinstance(content, list):
+                for line in content:
+                    _file.write(line.encode('utf-8') + '\n')
+        except IOError:
+            print 'IO Error'
+            return
+        finally:
+            if _file is not None:
+                _file.close()
 
     def write(self, content):
         '''
