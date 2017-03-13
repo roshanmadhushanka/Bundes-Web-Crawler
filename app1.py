@@ -164,7 +164,7 @@ def loadURLList():
 
     links = []
     for company in company_list:
-        links.extend(crawler.getSearchUrlsFromDriver(company, driver))
+        links.extend(crawler.getSearchUrls(company))
 
     file_handler = FileHandler(file_name=config.LINK_LIST_PATH)
     file_handler.write(links)
