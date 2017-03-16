@@ -163,6 +163,7 @@ def loadURLList():
 
     links = []
     for company in company_list:
+        print(crawler.getSearchUrls(company))
         links.extend(crawler.getSearchUrls(company))
 
     file_handler = FileHandler(file_name=config.LINK_LIST_PATH)

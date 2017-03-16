@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 class FileHandler:
     def __init__(self, file_name):
         self.file_name = file_name
@@ -12,7 +13,7 @@ class FileHandler:
         _file = None
         _lines = None
         try:
-            _file = open(self.file_name, 'r')
+            _file = open(self.file_name, 'r', encoding='utf-8')
             _lines = _file.readlines()
             _lines = [a.rstrip() for a in _lines if a != '\n']
         except IOError:

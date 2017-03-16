@@ -7,7 +7,7 @@ SAVE_INTERVAL = 1
 LINK_LIST_PATH = 'link_list'
 COMPANY_LIST_PATH = 'company_list'
 HOST = '127.0.0.1'
-PORT = 5007
+PORT = 5008
 
 HOME = os.getcwd()
 

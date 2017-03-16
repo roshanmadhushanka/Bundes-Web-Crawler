@@ -89,7 +89,7 @@
                         <ul class="nav nav-pills navbar-collapse">
                         {% for url in session['link_list'] %}
                             <li>
-                                <p>{{ loop.index }} - {{ url }}</p>
+                                <a href="{{ url }}">{{ loop.index }} - {{ url }}</a>
                             </li>
                         {% endfor %}
                         </ul>
