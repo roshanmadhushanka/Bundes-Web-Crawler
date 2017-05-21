@@ -1,11 +1,11 @@
 import threading
 import time
 import config
+import string
 import system.crawler as crawler
 from bs4 import BeautifulSoup
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 from system.io import FileHandler
-
 
 class Async(threading.Thread):
     def __init__(self, process_q, driver):
@@ -60,11 +60,14 @@ class Async(threading.Thread):
 
                     # Parse document data
                     _doc_data = crawler.getDocumentDetails(_soup)
-                    _file_name = config.RESULT_OUT_PATH + _doc_data['name'] + ' ' + _doc_data['info'] + '.html'
                     _html_string = '<html><body>' + _doc_data['preview_data'].decode('utf-8') + '</body></html>'
 
                     # Write result to file
-                    file_handler = FileHandler(_file_name)
+                    _file_name = _doc_data['name'] + ' ' + _doc_data['info']
+                    valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
+                    _file_name = ''.join(c for c in _file_name if c in valid_chars)
+                    _file_path = config.RESULT_OUT_PATH + _file_name + '.html'
+                    file_handler = FileHandler(_file_path)
                     file_handler.write(_html_string)
 
                     break

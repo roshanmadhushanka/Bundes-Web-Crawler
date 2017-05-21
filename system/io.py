@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import string
 
 class FileHandler:
     def __init__(self, file_name):
@@ -17,7 +17,6 @@ class FileHandler:
             _lines = _file.readlines()
             _lines = [a.rstrip() for a in _lines if a != '\n']
         except IOError:
-            print("IO Error")
             pass
         finally:
             if _file is not None:
@@ -59,7 +58,7 @@ class FileHandler:
             elif isinstance(content, list):
                 content = [a + '\n' for a in content]
                 _file.writelines(content)
-        except IOError:
+        except IOError as e:
             pass
         finally:
             if _file is not None:
