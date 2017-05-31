@@ -7,6 +7,52 @@ from bs4 import BeautifulSoup
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
 from system.io import FileHandler
 
+def extract_table_head(table_head):
+    # Tuple list
+    row_data = []
+
+    # Table head rows
+    tr_list = table_head.find_all(name='tr')
+    for tr_tag in tr_list:
+        # Extract th cols
+        col_data = []
+
+        th_list = tr_tag.find_all(name='th')
+        for th_tag in th_list:
+            th_tag = ' '.join(th_tag.text.split())
+            col_data.append(th_tag)
+
+        if len(col_data) > 0:
+            row_data.append(col_data)
+
+        # Extract td cols
+        td_cols = []
+        td_list = tr_tag.find_all(name='td')
+        for td_tag in td_list:
+            td_tag = ' '.join(td_tag.text.split())
+            td_cols.append(td_tag)
+
+        if len(td_cols) > 0:
+            row_data.append(td_cols)
+
+    return row_data
+
+
+def extract_table_body(table_body):
+    row_data = []
+    tr_list = table_body.find_all(name='tr')
+    for td_tag in tr_list:
+        # Extract col data
+        col_data = []
+        td_list = td_tag.find_all(name='td')
+        for td_tag in td_list:
+            td_tag = ' '.join(td_tag.text.split())
+            col_data.append(td_tag)
+
+        if len(col_data) > 0:
+            row_data.append(col_data)
+
+    return row_data
 
 def process(html_str):
     # Parse web page
@@ -206,8 +252,6 @@ class Async(threading.Thread):
                     # Parse document data
                     _doc_data = crawler.getDocumentDetails(_soup)
                     _html_string = '<html><body>' + _doc_data['preview_data'].decode('utf-8') + '</body></html>'
-                    _document = process(_html_string)
-                    print(_document)
 
                     # Write result to file
                     _file_name = _doc_data['name'] + ' ' + _doc_data['info']
@@ -217,12 +261,17 @@ class Async(threading.Thread):
                     file_handler = FileHandler(_file_path)
                     file_handler.write(_html_string)
 
+                    _document = process(_html_string)
+                    self.printDoc(_document)
+
                     break
                 except NoSuchElementException:
                     time.sleep(config.SLEEP_TIME)
                 except WebDriverException:
                     print("Browser has closed, terminate")
                     return
+                except AttributeError:
+                    break
 
     def pause(self):
         '''
@@ -233,3 +282,19 @@ class Async(threading.Thread):
         with self._condition:
             self._stop = True
 
+    def printDoc(self, document_data):
+        _tables = document_data['tables']
+        _text = document_data['text_content']
+
+        for _table in _tables:
+            print(_table['name'])
+            print("-----------------")
+
+            print(_table['header'])
+            for _line in _table['data']:
+                print(_line)
+
+        print(_text['title'])
+        print("-----------")
+        for _line in _text['content']:
+            print(_line)
