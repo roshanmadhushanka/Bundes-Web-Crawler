@@ -2,6 +2,7 @@ import threading
 import time
 import config
 import string
+import pymongo
 import system.crawler as crawler
 from bs4 import BeautifulSoup
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
@@ -179,11 +180,15 @@ class Async(threading.Thread):
                     # _file_handler = FileHandler(_file_path)
                     # _file_handler.write(_html_string)
 
-                    _db_handler = MongoHandler()
-                    _document = process(_html_string)
-                    _document['file_name'] = _file_name
-                    _db_handler.insertDocument(_document)
-                    _db_handler.closeDatabaseClient()
+                    try:
+                        _db_handler = MongoHandler()
+                        _document = process(_html_string)
+                        _document['file_name'] = _file_name
+                        _db_handler.insertDocument(_document)
+                    except pymongo.errors.ServerSelectionTimeoutError:
+                        print("Cannot connect to the database. Service timeout")
+                    finally:
+                        _db_handler.closeDatabaseClient()
                     break
                 except NoSuchElementException:
                     time.sleep(config.SLEEP_TIME)

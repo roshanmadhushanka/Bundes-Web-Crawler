@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import os
+import config
 from urllib.error import URLError
-
 from flask import Flask, render_template, redirect, session, request
 from flask_cors import CORS
 from selenium import webdriver
-
-import config
 from system import crawler
 from system.io import FileHandler
 from system.process import Async
@@ -49,7 +47,8 @@ def initSystem():
     company_list = file_handler.read()
 
     if company_list is None:
-        session['error'] = 'Company list cannot be found'
+        config.SYSTEM_STATE = 'Company list cannot be found'
+        session['system_state'] = config.SYSTEM_STATE
         return
 
     # Load company list to  the next queue
@@ -61,7 +60,8 @@ def initSystem():
 
     # Setting up session
     session['company_list'] = company_list
-    session['system_state'] = 'Idle'
+    config.SYSTEM_STATE = 'Idle'
+    session['system_state'] = config.SYSTEM_STATE
 
     # Create result folder if not exists
     if not os.path.exists(config.RESULT_OUT_PATH):
@@ -86,6 +86,7 @@ def index():
         initSystem()
         initialised = True
 
+    session['system_state'] = config.SYSTEM_STATE
     return render_template('main.html')
 
 
@@ -95,7 +96,8 @@ def startProcess():
 
     if async_process is not None:
         print("Server :", "Running")
-        session['system_state'] = 'Running'
+        config.SYSTEM_STATE = 'Running'
+        session['system_state'] = config.SYSTEM_STATE
         async_process.resume()
 
     return redirect('/')
@@ -107,7 +109,8 @@ def stopProcess():
 
     if async_process is not None:
         print("Server :", "Idle")
-        session['system_state'] = 'Idle'
+        config.SYSTEM_STATE = 'Idle'
+        session['system_state'] = config.SYSTEM_STATE
         async_process.pause()
 
     return redirect('/')
@@ -122,7 +125,8 @@ def getNext():
         next_n = int(request.form['next_n'])
 
         if company_queue is not None and isinstance(company_queue, NextQueue):
-            session['system_state'] = 'Crawling'
+            config.SYSTEM_STATE = 'Crawling'
+            session['system_state'] = config.SYSTEM_STATE
 
             # Crawl company list
             company_list = company_queue.getNext(next_n)
@@ -131,7 +135,8 @@ def getNext():
                 try:
                     links.extend(crawler.getSearchUrls(company))
                 except URLError:
-                    session['error'] = 'Connection timeout'
+                    config.SYSTEM_STATE = 'URL not found. Connection timeout'
+                    session['system_state'] = config.SYSTEM_STATE
                     return
 
             # Create new process queue
@@ -148,7 +153,8 @@ def getNext():
             # Set sessions
             session['link_list'] = links
             session['company_list'] = company_list
-            session['system_state'] = 'Idle'
+            config.SYSTEM_STATE = 'Idle'
+            session['system_state'] = config.SYSTEM_STATE
 
     return redirect('/')
 
@@ -182,7 +188,8 @@ def loadURLList():
 
     session['link_list'] = links
     session['company_list'] = company_list
-    session['system_state'] = 'Idle'
+    config.SYSTEM_STATE = 'Idle'
+    session['system_state'] = config.SYSTEM_STATE
 
     return redirect('/')
 
@@ -202,10 +209,14 @@ def upload():
             file_path = config.DATABASE_PATH + file_name
             file_handler = FileHandler(file_path)
             content = file_handler.read()
+            session['system_state'] = config.SYSTEM_STATE
 
             # Read company list
             file_handler = FileHandler(config.COMPANY_LIST_PATH)
             company_list = file_handler.read()
+
+            if content is None:
+                return redirect('/')
 
             # Extend company list with uploaded values
             company_list.extend(content)

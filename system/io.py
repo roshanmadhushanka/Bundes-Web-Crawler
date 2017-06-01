@@ -2,6 +2,8 @@
 import string
 from pymongo import MongoClient
 import pymongo
+import config
+
 
 class FileHandler:
     def __init__(self, file_name):
@@ -18,6 +20,10 @@ class FileHandler:
             _file = open(self.file_name, 'r', encoding='utf-8')
             _lines = _file.readlines()
             _lines = [a.rstrip() for a in _lines if a != '\n']
+        except UnicodeDecodeError:
+            print("Unsupported text content")
+            config.SYSTEM_STATE = "Unsupported text content"
+            return
         except IOError:
             pass
         finally:
