@@ -5,197 +5,115 @@ import string
 import system.crawler as crawler
 from bs4 import BeautifulSoup
 from selenium.common.exceptions import NoSuchElementException, WebDriverException
-from system.io import FileHandler
+from system.io import FileHandler, MongoHandler
 
-def extract_table_head(table_head):
+
+def extract_table_head(_table_head):
     # Tuple list
-    row_data = []
+    _row_data = []
 
     # Table head rows
-    tr_list = table_head.find_all(name='tr')
-    for tr_tag in tr_list:
+    _tr_list = _table_head.find_all(name='tr')
+    for _tr_tag in _tr_list:
         # Extract th cols
-        col_data = []
+        _col_data = []
 
-        th_list = tr_tag.find_all(name='th')
-        for th_tag in th_list:
-            th_tag = ' '.join(th_tag.text.split())
-            col_data.append(th_tag)
+        _th_list = _tr_tag.find_all(name='th')
+        for _th_tag in _th_list:
+            _th_tag = ' '.join(_th_tag.text.split())
+            _col_data.append(_th_tag)
 
-        if len(col_data) > 0:
-            row_data.append(col_data)
+        if len(_col_data) > 0:
+            _row_data.append(_col_data)
 
         # Extract td cols
-        td_cols = []
-        td_list = tr_tag.find_all(name='td')
-        for td_tag in td_list:
-            td_tag = ' '.join(td_tag.text.split())
-            td_cols.append(td_tag)
+        _td_cols = []
+        _td_list = _tr_tag.find_all(name='td')
+        for _td_tag in _td_list:
+            _td_tag = ' '.join(_td_tag.text.split())
+            _td_cols.append(_td_tag)
 
-        if len(td_cols) > 0:
-            row_data.append(td_cols)
+        if len(_td_cols) > 0:
+            _row_data.append(_td_cols)
 
-    return row_data
+    return _row_data
 
 
-def extract_table_body(table_body):
-    row_data = []
-    tr_list = table_body.find_all(name='tr')
-    for td_tag in tr_list:
+def extract_table_body(_table_body):
+    _row_data = []
+    _tr_list = _table_body.find_all(name='tr')
+    for _td_tag in _tr_list:
         # Extract col data
-        col_data = []
-        td_list = td_tag.find_all(name='td')
-        for td_tag in td_list:
-            td_tag = ' '.join(td_tag.text.split())
-            col_data.append(td_tag)
+        _col_data = []
+        _td_list = _td_tag.find_all(name='td')
+        for _td_tag in _td_list:
+            _td_tag = ' '.join(_td_tag.text.split())
+            _col_data.append(_td_tag)
 
-        if len(col_data) > 0:
-            row_data.append(col_data)
+        if len(_col_data) > 0:
+            _row_data.append(_col_data)
 
-    return row_data
+    return _row_data
+
 
 def process(html_str):
     # Parse web page
-    soup = BeautifulSoup(html_str, "lxml")
+    _soup = BeautifulSoup(html_str, "lxml")
 
     # Document data
-    document_data = {}
+    _document_data = {}
 
     # Extract title1
-    title1_tag = soup.find(name='h3',
-                           attrs={'class': 'z_titel', 'style': ' font-weight: bold; text-align: center;'})
-    title1 = title1_tag.text.strip()
-    document_data['title1'] = title1
+    _title1_tag = _soup.find(name='h3', attrs={'class': 'z_titel'})
+    _title1 = ''
+    if _title1_tag is not None:
+        _title1 = ' '.join(_title1_tag.text.split())
+
+    _document_data['title1'] = _title1
 
     # Extract title2
-    title2_tag = soup.find(name='h4',
-                           attrs={'class': 'z_titel', 'style': ' font-weight: bold; text-align: center;'})
-    title2 = title2_tag.text.strip()
-    document_data['title2'] = title2
+    _title2_tag = _soup.find(name='h4', attrs={'class': 'z_titel'})
+    _title2 = ''
+    if _title2_tag is not None:
+        _title2 = ' '.join(_title2_tag.text.split())
+    _document_data['title2'] = _title2
 
     # Extract title3
-    title3_tag = soup.find(name='h3', attrs={'class': 'l_titel'})
-    title3 = title3_tag.text.strip()
-    document_data['title3'] = title3
-
-    # Extract title4
-    title4_tag = soup.find(name='h3', attrs={'class': 'b_teil'})
-    title4 = title4_tag.text.strip()
-    document_data['title4'] = title4
+    _title3_tag = _soup.find(name='h3', attrs={'class': 'l_titel'})
+    _title3 = ''
+    if _title3_tag is not None:
+        _title3 = ' '.join(_title3_tag.text.split())
+    _document_data['title3'] = _title3
 
     # Extract table data
-    table_list = soup.find_all(name='table', attrs={'class': 'std_table'})
+    _table_list = _soup.find_all(name='table', attrs={'class': 'std_table'})
+    _tables = []
+    for _table_tag in _table_list:
+        _table_data = {}
+        # Extract table head data
+        _table_head = _table_tag.find(name='thead')
+        if _table_head is not None:
+            _thead = extract_table_head(_table_head)
+            _table_data['thead'] = _thead
 
-    # List of tables in the document
-    tables = []
-    table_names = ['Aktiva', 'Passiva']
+        _table_body = _table_tag.find(name='tbody')
+        if _table_body is not None:
+            _tbody = extract_table_body(_table_body)
+            _table_data['tbody'] = _tbody
 
-    isDocumentType2 = False
+        _tables.append(_table_data)
+    _document_data['tables'] = _tables
 
-    for table in table_list:
-        table_data = {}
+    # Extract paragraph data
+    _p_list = _soup.find_all(name='p')
+    _paragraph_data = []
+    for _p_tag in _p_list:
+        _paragraph_data.append(' '.join(_p_tag.text.split()))
 
-        # Extract table title
-        table_name = table_names.pop(0)
-        table_data['name'] = table_name
+    _paragraph_data = [x for x in _paragraph_data if (x.lower() != 'aktiva' and x.lower() != 'passiva' and x != '')]
+    _document_data['paragraphs'] = _paragraph_data
 
-        # Extract table headers
-        table_headers = ['attribute']
-        thead_tag_list = table.find_all(name='thead')
-
-        for thead_tag in thead_tag_list:
-            th_tag_list = thead_tag.find_all(name='th')
-
-            if th_tag_list == []:
-                # Document type 2
-                isDocumentType2 = True
-
-            # Extract table headers
-            for th_tag in th_tag_list[2:]:
-                th_text = ' '.join(th_tag.text.split())
-                table_headers.append(th_text)
-
-        # Add headers to table
-        table_data['header'] = table_headers
-
-        # Extract table data
-        tbody = table.find(name='tbody')
-        tr_tag_list = tbody.find_all(name='tr')
-        row_data = []
-        for tr_tag in tr_tag_list:
-            keys = list(table_headers)
-            data = []
-            td_tag_list = tr_tag.find_all(name='td')
-            for td_tag in td_tag_list:
-                td_text = ' '.join(td_tag.text.split())
-                data.append(td_text)
-            row_data.append(data)
-
-        if isDocumentType2:
-            # If document type 2 detected
-            index = 0
-            for i in range(len(row_data)):
-                if row_data[i][0] == 'Passiva':
-                    index = i
-                    break
-
-            # Define table headers
-            table_headers = row_data[index + 1]
-            table_headers[0] = 'attribute'
-
-            # Create two tables
-            table1 = {'name': 'Aktiva', 'header': table_headers, 'data': row_data[:index]}
-            table2 = {'name': 'Passiva', 'header': table_headers, 'data': row_data[index + 2:]}
-
-            # Add generated tables to tables
-            tables.append(table1)
-            tables.append(table2)
-
-            break
-
-        # If not document type 2
-        # Add table data to table
-        table_data['data'] = row_data
-
-        # Add table to tables
-        tables.append(table_data)
-
-    # Add tables to the document
-    document_data['tables'] = tables
-
-    # Generating text content
-    text_content = {}
-
-    # Extracting title of text content
-    title5 = ""
-    try:
-        title5_tag = soup.find_all(name='h3', attrs={'class': 'b_teil'})[1]
-        title5 = ' '.join(title5_tag.text.split())
-    except IndexError:
-        pass
-
-    # Add title to text content
-    text_content['title'] = title5
-
-    # Extract contents
-    contents = []
-    p_tag_list = soup.find_all(name='p')
-
-    index = 0
-    if isDocumentType2:
-        index = 2
-
-    for p_tag in p_tag_list[index:]:
-        data = ' '.join(p_tag.text.split())
-        contents.append(data)
-
-    # Add contents to text content
-    text_content['content'] = contents
-
-    # Add text content to the document
-    document_data['text_content'] = text_content
-
-    return document_data
+    return _document_data
 
 
 class Async(threading.Thread):
@@ -257,13 +175,15 @@ class Async(threading.Thread):
                     _file_name = _doc_data['name'] + ' ' + _doc_data['info']
                     valid_chars = "-_.() %s%s" % (string.ascii_letters, string.digits)
                     _file_name = ''.join(c for c in _file_name if c in valid_chars)
-                    _file_path = config.RESULT_OUT_PATH + _file_name + '.html'
-                    file_handler = FileHandler(_file_path)
-                    file_handler.write(_html_string)
+                    # _file_path = config.RESULT_OUT_PATH + _file_name + '.html'
+                    # _file_handler = FileHandler(_file_path)
+                    # _file_handler.write(_html_string)
 
+                    _db_handler = MongoHandler()
                     _document = process(_html_string)
-                    self.printDoc(_document)
-
+                    _document['file_name'] = _file_name
+                    _db_handler.insertDocument(_document)
+                    _db_handler.closeDatabaseClient()
                     break
                 except NoSuchElementException:
                     time.sleep(config.SLEEP_TIME)
@@ -282,19 +202,10 @@ class Async(threading.Thread):
         with self._condition:
             self._stop = True
 
-    def printDoc(self, document_data):
-        _tables = document_data['tables']
-        _text = document_data['text_content']
+    def printDoc(self, _document_data):
+        print(_document_data['title1'])
+        print(_document_data['title2'])
+        print(_document_data['title3'])
+        print(_document_data['tables'])
+        print(_document_data['paragraphs'])
 
-        for _table in _tables:
-            print(_table['name'])
-            print("-----------------")
-
-            print(_table['header'])
-            for _line in _table['data']:
-                print(_line)
-
-        print(_text['title'])
-        print("-----------")
-        for _line in _text['content']:
-            print(_line)

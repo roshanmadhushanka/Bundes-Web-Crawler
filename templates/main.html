@@ -85,6 +85,7 @@
                 <div class="row" id="url-table">
                     <h2 class="modal-header"> Link List </h2>
                     {% if session['link_list'] %}
+                    <h3> Number of links : {{ session['link_list']|length }}</h3>
                     <nav class="col-sm-3">
                         <ul class="nav nav-pills navbar-collapse">
                         {% for url in session['link_list'] %}

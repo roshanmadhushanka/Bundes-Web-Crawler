@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import string
+from pymongo import MongoClient
+import pymongo
 
 class FileHandler:
     def __init__(self, file_name):
@@ -63,6 +65,40 @@ class FileHandler:
         finally:
             if _file is not None:
                 _file.close()
+
+
+class MongoHandler():
+    def __init__(self):
+        # Initialize handler parameters
+        self._table_name = 'firm'
+        self._host = "localhost"
+        self._port = 27017
+        self._client = MongoClient(self._host, self._port)
+        self._db = self._client[self._table_name]
+        self._posts = self._db.posts
+
+    def insertDocument(self, document):
+        # Insert document into the database
+        self._posts.insert_one(document)
+
+    def getAllDocuments(self):
+        # Retrieve all the documents from database
+        _cursor = self._posts.find({})
+        _document_list = []
+        for _document in _cursor:
+            _document_list.append(_document)
+        return _document_list
+
+    def closeDatabaseClient(self):
+        if isinstance(self._client, pymongo.mongo_client.MongoClient):
+            self._client.close()
+
+    def deleteAll(self):
+        self._posts.delete_many({})
+
+
+
+
 
 
 
