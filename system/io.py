@@ -17,7 +17,7 @@ class FileHandler:
         _file = None
         _lines = None
         try:
-            _file = open(self.file_name, 'r', encoding='utf-8')
+            _file = open(self.file_name, 'r', encoding=config.ENCODING)
             _lines = _file.readlines()
             _lines = [a.rstrip() for a in _lines if a != '\n']
         except UnicodeDecodeError:

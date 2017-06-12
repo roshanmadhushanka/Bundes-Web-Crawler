@@ -4231,3 +4231,15 @@ JavaScript error: resource://gre/modules/AddonManager.jsm, line 2570: NS_ERROR_N
 1496321768330	Marionette	WARN	TLS certificate errors will be ignored for this session
 JavaScript error: resource://gre/modules/FileUtils.jsm, line 70: NS_ERROR_ILLEGAL_VALUE: Component returned failure code: 0x80070057 (NS_ERROR_ILLEGAL_VALUE) [nsIFile.create]
 JavaScript error: resource://app/modules/WindowsJumpLists.jsm, line 403: NS_ERROR_FILE_NOT_FOUND: Component returned failure code: 0x80520012 (NS_ERROR_FILE_NOT_FOUND) [nsIJumpListShortcut.app]
+1497259728297	geckodriver	INFO	Listening on 127.0.0.1:33911
+1497259729374	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.aqCewZm6Ccit
+1497259729375	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1497259729377	geckodriver::marionette	INFO	Connecting to Marionette on localhost:42823
+1497259730779	Marionette	INFO	Listening on port 42823
+1497259730815	Marionette	WARN	TLS certificate errors will be ignored for this session
+1497259813045	geckodriver	INFO	Listening on 127.0.0.1:50521
+1497259814121	mozprofile::profile	INFO	Using profile path /tmp/rust_mozprofile.OXgLHSb4Kwyw
+1497259814122	geckodriver::marionette	INFO	Starting browser /usr/bin/firefox
+1497259814124	geckodriver::marionette	INFO	Connecting to Marionette on localhost:43759
+1497259815573	Marionette	INFO	Listening on port 43759
+1497259815638	Marionette	WARN	TLS certificate errors will be ignored for this session

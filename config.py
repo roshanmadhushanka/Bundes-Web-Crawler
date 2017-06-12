@@ -1,5 +1,6 @@
 import os.path
 import sys
+import locale
 
 PROCEED = True
 SLEEP_TIME = 10
@@ -9,6 +10,7 @@ COMPANY_LIST_PATH = 'company_list'
 HOST = '127.0.0.1'
 PORT = 5008
 SYSTEM_STATE = ""
+ENCODING = locale.getdefaultlocale()
 
 HOME = os.getcwd()
 
